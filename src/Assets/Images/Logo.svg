@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="513" height="200" viewBox="0 0 513 200">
+  <g id="Group_3" data-name="Group 3" transform="translate(-108 -359)">
+    <g id="Group_1" data-name="Group 1">
+      <g id="Ellipse_1" data-name="Ellipse 1" transform="translate(208 394)" stroke="#707070" stroke-width="1">
+        <ellipse cx="47" cy="45" rx="47" ry="45" stroke="none"/>
+        <ellipse cx="47" cy="45" rx="46.5" ry="44.5" fill="none"/>
+      </g>
+      <g id="Ellipse_2" data-name="Ellipse 2" transform="translate(228 413)" stroke="#fff" stroke-width="8">
+        <ellipse cx="27" cy="26" rx="27" ry="26" stroke="none"/>
+        <ellipse cx="27" cy="26" rx="23" ry="22" fill="none"/>
+      </g>
+    </g>
+    <g id="Group_2" data-name="Group 2">
+      <text id="F_odie" data-name="F  odie" transform="translate(108 522)" font-size="183" font-family="BerlinSansFB-Reg, Berlin Sans FB"><tspan x="0" y="0" xml:space="preserve">F  odie</tspan></text>
+      <ellipse id="Ellipse_3" data-name="Ellipse 3" cx="14.5" cy="20" rx="14.5" ry="20" transform="translate(498 389)"/>
+    </g>
+  </g>
+</svg>
