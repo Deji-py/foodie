@@ -28,9 +28,14 @@ function ItemCard({ item }) {
 
 
     return (
-        <div className='md:w-[290px] w-full flex flex-col justify-between items-center rounded-xl shadow-xl text-[0.8rem] relative px-5 h-[300px] md:h-[250px] bg-white flex-none'>
-            <div className='bg-gray-300  h-[45%] absolute w-full left-0 overflow-hidden rounded-tl-xl rounded-tr-xl'>
+        <div className='md:w-[290px] w-full flex flex-col justify-between items-center rounded-xl shadow-xl  text-[0.8rem] relative px-5 h-[300px] md:h-[300px] bg-white flex-none'>
+            <div className='bg-gray-300  h-[50%] absolute w-full left-0 overflow-hidden rounded-tl-xl rounded-tr-xl'>
                 <img src={item.image} className={"w-full h-full object-cover"} />
+            </div>
+            <div className='absolute bg-gradient-to-b from-[#00000083] to-[#68686800]  w-full h-[50%]' />
+            <div className='bg-green-300 text-black font-bold  left-0 px-3 py-3 absolute top-0 font-medium rounded-tr-xl rounded-br-xl shadow-xl '>
+                {"$ " + item.price}
+
             </div>
             <div className='absolute bottom-2'>
                 <div className=' px-3 h-[80px] overflow-hidden'>
@@ -47,9 +52,7 @@ function ItemCard({ item }) {
                     <Rating value={item.rating} size={"small"} sx={{
                         color: "#2079fd"
                     }} />
-                    <div className='bg-green-500 text-white px-3 font-medium rounded-tr-full rounded-br-full shadow-md shadow-gray-300'>
-                        {"$ " + item.price}
-                    </div>
+
                     {cart.includes(item) ? (<button
                         onClick={removeItem}
                         className='bg-primary flex items-center flex-row gap-2 text-white p-2 rounded-full'>

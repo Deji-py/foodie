@@ -20,8 +20,8 @@ module.exports = {
           "-10px -10px 30px -15px rgba(0, 0, 0, 0.1), 10px 10px 30px -15px rgba(0, 0, 0, 0.1)",
       },
       colors: {
-        primary: "#2079fd",
-        secondary: "black",
+        primary: "#8000a7",
+        secondary: "#15cdca",
       },
       fontFamily: {
         medium: "'Poppins', sans-serif",

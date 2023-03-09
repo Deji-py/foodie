@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from "framer-motion"
+import pizza2 from "../Assets/Images/pizza2.png"
 import { Link, useLocation, useParams } from 'react-router-dom'
 
-function CategoryCard({ title, image, route, currentRoute }) {
+function CategoryCard({ title, image, route }) {
 
 
     const [hover, setHover] = useState(false)
     const [active, setActive] = useState(false)
     const params = useParams()
-
+    const currentRoute = useLocation()
 
 
     useEffect(() => {
 
-        if (route === params.id) {
+        if (currentRoute === route) {
             setActive(true)
         }
         else {

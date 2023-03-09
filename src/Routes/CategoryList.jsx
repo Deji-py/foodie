@@ -11,17 +11,20 @@ import { CircularProgress } from '@mui/material'
 function CategoryList() {
 
     const params = useParams()
-    const [loading, setLoading] = useState(true)
-    const category = useLoaderData()
+    const [category, setCategory] = useState(true)
+    const loadCategory = async () => {
+        const docRef = doc(db, 'categories/' + params.id.toLowerCase())
+        await getDoc(docRef).then((doc) => {
+            setCategory(doc.data())
+        }).catch
+            ((e) => console.log(e.message))
 
+    }
 
-
-
-
+    useEffect(loadCategory, [])
     return (
         <>
             <div className='flex flex-row  flex-wrap justify-start md:justify-center items-center pb-5 gap-5 w-screen'>
-
                 {category.list.map((item, key) => (
                     <ItemCard key={key} item={item} />
                 ))}
@@ -39,11 +42,6 @@ function CategoryList() {
 
 
 
-export const categoryLoader = async ({ params }) => {
-    const docRef = doc(db, 'categories/' + params.id.toLowerCase())
-    const document = await getDoc(docRef)
-    return document.data()
-}
 
 
 

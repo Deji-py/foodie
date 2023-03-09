@@ -27,7 +27,7 @@ function SideBar({ openSideNav, setOpenSideNav, route }) {
         );
     };
     return (
-        <div className='hidden fixed z-50 md:block '>
+        <div className='h-screen '>
             <motion.div
                 transition={{ type: "spring", stiffness: 100, duration: 0.1 }}
                 animate={{
@@ -35,12 +35,13 @@ function SideBar({ openSideNav, setOpenSideNav, route }) {
                 }}
                 onMouseOver={() => setOpenSideNav(true)}
                 className="flex flex-col h-screen gap-10 
-             shadow-xl bg-secondary px-2  justify-start items-center"
+             shadow-xl bg-gradient-to-b relative  from-primary to-secondary px-2  justify-start items-center"
             >
                 <div className="h-[20%]" />
                 <Link to={"/home"} className={"w-full"}>
                     <MenuButton
                         style={{
+                            boxShadow: route.pathname === "/home" ? "2px 2px 8px rgba(0,0,0,0.3)" : "transparent",
                             background: route.pathname === "/home" || route.pathname.includes("categories") ? "white" : "transparent",
                             color: route.pathname === "/home" || route.pathname.includes("categories") ? "black" : "white"
                         }}
@@ -49,9 +50,11 @@ function SideBar({ openSideNav, setOpenSideNav, route }) {
                         icon={<MdHome size={25} />}
                     />
                 </Link>
-                <Link to={"wallet"} className={"w-full"}>
+                <Link to={"wallet"} className={"w-full "}>
                     <MenuButton
+
                         style={{
+                            boxShadow: route.pathname === "/wallet" ? "2px 2px 8px rgba(0,0,0,0.3)" : "transparent",
                             background: route.pathname === "/wallet" ? "white" : "transparent",
                             color: route.pathname === "/wallet" ? "black" : "white"
                         }}
@@ -63,6 +66,7 @@ function SideBar({ openSideNav, setOpenSideNav, route }) {
                 <Link to={"admin"} className={"w-full"}>
                     <MenuButton
                         style={{
+                            boxShadow: route.pathname === "/admin" ? "2px 2px 8px rgba(0,0,0,0.3)" : "transparent",
                             background: route.pathname === "/admin" ? "white" : "transparent",
                             color: route.pathname === "/admin" ? "black" : "white"
                         }}

@@ -31,13 +31,8 @@ function App() {
         cart: cart,
       }}
     >
-      <Header
-        setOpenCart={setOpenCart}
-        openCart={openCart}
-        cartCount={cartCount}
-      />
       <div
-        className=" font-medium overflow-hidden w-full flex flex-row bg-gray-100"
+        className=" font-medium w-full overflow-y-hidden flex  flex-row "
         onMouseOut={() => setOpenSideNav(false)}
       >
         <SideBar
@@ -46,9 +41,14 @@ function App() {
           setOpenSideNav={setOpenSideNav}
         />
         <div
-          className="flex-1 h-fit px-2 md:px-20"
+          className="flex-1 h-screen overflow-y-scroll bg-gray-200 "
           onMouseOver={() => setOpenSideNav(false)}
         >
+          <Header
+            setOpenCart={setOpenCart}
+            openCart={openCart}
+            cartCount={cartCount}
+          />
           <div className=" flex mt-0 md:mt-10 flex-row h-fit w-full">
             <Outlet />
             <Cart openCart={openCart} setOpenCart={setOpenCart} />

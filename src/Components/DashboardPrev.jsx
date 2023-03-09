@@ -27,7 +27,7 @@ function DashboardPrev({ currentItemIndex, setCurrentItemIndex }) {
                     <MdChevronRight />
                 </IconButton>
             </div>
-            <img src={items[currentItemIndex]} className={" opacity-50  w-full h-full object-cover"} />
+            <img src={items[currentItemIndex]} className={" opacity-90  w-full h-full object-cover"} />
             <div className='w-full flex flex-col justify-center items-center'>
 
                 <div className=' flex flex-row absolute bottom-3 gap-3 '>

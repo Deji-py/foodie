@@ -45,12 +45,11 @@ function Cart({ openCart, setOpenCart }) {
     return (
         <div style={{
             width: openCart ? "100%" : "0%"
-        }} className='w-screen h-screen  fixed right-0 z-50 '>
+        }} className='w-screen h-screen top-0 fixed right-0 z-50 '>
             <div onClick={() => setOpenCart(false)} className='bg-gray-800 opacity-20 w-full h-full absolute top-0 left-0 z-20 ' />
-            <motion.div className=" overflow-hidden  shadow-medium absolute z-[100] right-0 h-screen  flex flex-col justify-center items-center  bg-white"
-                transition={{ type: "keyframes", stiffness: 100 }}
+            <motion.div className=" overflow-hidden  shadow-medium absolute z-[100] right-0 h-screen flex-col justify-center items-center  bg-white"
                 animate={{
-                    width: openCart ? "24%" : "0%",
+                    width: openCart ? "25%" : "0%",
 
                 }}>
 
@@ -78,7 +77,39 @@ function Cart({ openCart, setOpenCart }) {
 
 
             </motion.div>
-        </div>
+            <div className=" flex md:hidden " >
+                <motion.div className=" overflow-hidden shadow-medium absolute z-[100] top-0 right-0 h-screen flex-col justify-center items-center  bg-white"
+                    animate={{
+                        width: openCart ? "80%" : "0%",
+
+                    }}>
+
+
+                    {cart.length === 0 ? (
+                        <>
+                            <MdFastfood size={100} color={"lightGray"} />
+                            <p className='text-[1.2rem] text-gray-500 pt-2'>Cart Currently Empty</p>
+                        </>
+                    ) : (
+                        <div className='flex flex-col justify-start px-5 items-center w-[100%]  gap-5'>
+                            {cart.map((item, key) => (
+                                <div key={key} className={"w-full"} >
+                                    <CartItem title={item.name} image={item.image} price={item.price} />
+                                    <Divider />
+
+                                </div>
+                            ))}
+
+                            <button className='bg-primary w-[80%] p-2 rounded-full text-white text-[1.2rem]'>
+                                Checkout
+                            </button>
+                        </div>
+                    )}
+
+
+                </motion.div>
+            </div >
+        </div >
     )
 }
 

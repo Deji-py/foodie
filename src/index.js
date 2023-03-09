@@ -20,13 +20,11 @@ const routes = createBrowserRouter([
     children: [
       {
         path: "home",
-        loader: homepageLoader,
         element: <HomePage />,
         children: [
           {
             path: "/home/categories/:id",
             element: <CategoryList />,
-            loader: categoryLoader,
             errorElement: <ErrorPage />,
           },
         ],
