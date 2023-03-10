@@ -57,7 +57,7 @@ function Cart({ openCart, setOpenCart }) {
                 {cart.length === 0 ? (
                     <>
                         <MdFastfood size={100} color={"lightGray"} />
-                        <p className='text-[1.2rem] text-gray-500 pt-2'>Cart Currently Empty</p>
+                        <p className='text-[1rem] md:text-[1.2rem]  text-gray-500 pt-2'>Cart Currently Empty</p>
                     </>
                 ) : (
                     <div className='flex flex-col justify-start px-5 items-center w-[100%]  gap-5'>

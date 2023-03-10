@@ -40,10 +40,7 @@ function CategoryCard({ title, image, route }) {
             <motion.div animate={{
                 y: hover || active ? -25 : 0,
             }}>
-                <img src={image} alt="image" style={{
-                    width: 80,
-                    height: 80,
-                }} />
+                <img src={image} className={"w-[60px] md:w-[80px] h-[60px] md:h-[80px]"} alt="image" />
             </motion.div>
             <div>
                 <p className='text-[1.3rem]'>

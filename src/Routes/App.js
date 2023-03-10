@@ -49,7 +49,7 @@ function App() {
             openCart={openCart}
             cartCount={cartCount}
           />
-          <div className=" flex mt-0 md:mt-10  flex-row h-fit w-full">
+          <div className=" flex  flex-row h-fit w-full">
             <Outlet />
             <Cart openCart={openCart} setOpenCart={setOpenCart} />
           </div>
