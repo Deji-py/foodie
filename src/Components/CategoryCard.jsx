@@ -14,7 +14,7 @@ function CategoryCard({ title, image, route }) {
 
     useEffect(() => {
 
-        if (currentRoute === route) {
+        if (route === params.id) {
             setActive(true)
         }
         else {
@@ -33,7 +33,7 @@ function CategoryCard({ title, image, route }) {
          shadow-none hover:shadow-xl border-2 mt-5 flex flex-col w-[10em] h-[8em] rounded-br-3xl  
          rounded-tl-3xl  rounded-xl  relative justify-center items-center'
             style={{
-                background: active ? "black" : "white" && hover ? "white" : "white",
+                background: active ? "#AD92F1" : "white" && hover ? "white" : "white",
                 color: active ? "white" : "black"
             }}
         >

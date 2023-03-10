@@ -27,11 +27,11 @@ function SideBar({ openSideNav, setOpenSideNav, route }) {
         );
     };
     return (
-        <div className='h-screen '>
+        <div className='h-screen hidden md:flex '>
             <motion.div
                 transition={{ type: "spring", stiffness: 100, duration: 0.1 }}
                 animate={{
-                    width: openSideNav ? "20vw" : "4vw",
+                    width: openSideNav ? "16vw" : "4vw",
                 }}
                 onMouseOver={() => setOpenSideNav(true)}
                 className="flex flex-col h-screen gap-10 

@@ -41,7 +41,7 @@ function App() {
           setOpenSideNav={setOpenSideNav}
         />
         <div
-          className="flex-1 h-screen overflow-y-scroll bg-gray-200 "
+          className="flex-1 h-screen overflow-y-scroll bg-gray-100 "
           onMouseOver={() => setOpenSideNav(false)}
         >
           <Header
@@ -49,7 +49,7 @@ function App() {
             openCart={openCart}
             cartCount={cartCount}
           />
-          <div className=" flex mt-0 md:mt-10 flex-row h-fit w-full">
+          <div className=" flex mt-0 md:mt-10  flex-row h-fit w-full">
             <Outlet />
             <Cart openCart={openCart} setOpenCart={setOpenCart} />
           </div>

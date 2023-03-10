@@ -78,7 +78,7 @@ function Cart({ openCart, setOpenCart }) {
 
             </motion.div>
             <div className=" flex md:hidden " >
-                <motion.div className=" overflow-hidden shadow-medium absolute z-[100] top-0 right-0 h-screen flex-col justify-center items-center  bg-white"
+                <motion.div className=" overflow-hidden shadow-xl shadow-gray-600 absolute z-[100] top-0 right-0 h-screen flex-col justify-center items-center  bg-gray-100"
                     animate={{
                         width: openCart ? "80%" : "0%",
 
@@ -86,12 +86,12 @@ function Cart({ openCart, setOpenCart }) {
 
 
                     {cart.length === 0 ? (
-                        <>
+                        <div className='w-full flex flex-col h-full  justify-center items-center'>
                             <MdFastfood size={100} color={"lightGray"} />
                             <p className='text-[1.2rem] text-gray-500 pt-2'>Cart Currently Empty</p>
-                        </>
+                        </div>
                     ) : (
-                        <div className='flex flex-col justify-start px-5 items-center w-[100%]  gap-5'>
+                        <div className='flex flex-col justify-start px-5 items-center w-[100%]  pt-[30%] h-full  gap-5'>
                             {cart.map((item, key) => (
                                 <div key={key} className={"w-full"} >
                                     <CartItem title={item.name} image={item.image} price={item.price} />

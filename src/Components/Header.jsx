@@ -8,15 +8,16 @@ function Header({ setOpenCart, openCart }) {
 
   const { cart } = useContext(CartCountContext)
   return (
-    <div className='flex flex-row  bg-gray-200 justify-evenly items-center  filter backdrop-blur-lg py-3  pr-5 text-[0.8rem]' >
+    <div className='flex flex-row sticky top-0 z-[100]  bg-gray-100 justify-evenly items-center  filter backdrop-blur-lg py-3  pr-5 pl-3 text-[0.8rem]' >
 
-
-      {/* <IconButton>
+      <div className='flex md:hidden mr-3'>
+        <IconButton>
           <MdMenu size={25} />
-        </IconButton> */}
+        </IconButton>
+      </div>
       <div className=' font-medium md:w-[15%]  h-full flex flex-row justify-center items-center'>
-        <img src={Logo} alt="Logo" className=" w-[40px] h-[40px] md:w-30px" />
-        <p className='text-[1.5rem] font-bold'>Foodie</p>
+        <img src={Logo} alt="Logo" className=" w-[35px] h-[35px] md:w-[40px]" />
+        <p className='text-[1.5rem] font-bold bg-gradient-to-r ml-2 from-secondary to-primary bg-clip-text text-transparent'>Foodie</p>
       </div>
 
       <div className=' flex-1 flex justify-center items-center px-5'>
@@ -42,10 +43,12 @@ function Header({ setOpenCart, openCart }) {
         <IconButton onClick={() => setOpenCart(!openCart)} style={{
 
           position: "relative",
+          background: "white",
+          boxShadow: "2px 2px 8px lightgray"
 
         }}>
           {cart.length === 0 ? (<div />) : (
-            <div className='absolute bg-red-500 top-0 right-0 text-white rounded-full text-[0.6rem] w-3 h-3'>
+            <div className='absolute  top-0 right-0 text-white bg-primary rounded-full text-[0.6rem] w-3 h-3'>
               {cart.length}
             </div>
           )}
