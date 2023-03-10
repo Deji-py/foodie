@@ -7,6 +7,7 @@ import Categories from '../Components/Categories'
 import Dashboard from '../Components/Dashboard'
 import DashboardPrev from '../Components/DashboardPrev'
 import HeroSection from '../Components/HeroSection'
+import Weserve from '../Components/Weserve'
 import { db } from '../firebase_config'
 import ItemCard from '../Utilty/ItemCard'
 import Modal from '../Utilty/Modal'
@@ -49,7 +50,7 @@ function HomePage() {
             <div className="flex-1 flex flex-col h-full  gap-5 w-full md:w-full items-center">
 
                 <HeroSection />
-
+                <Weserve />
                 <div className="h-fit px-0  md:px-10  w-full">
                     <Categories />
                     <div className="w-full h-fit mt-10 ">

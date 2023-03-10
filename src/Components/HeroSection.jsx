@@ -16,7 +16,7 @@ function HeroSection() {
                     <button className='p-3 px-5 bg-primary  shadow-xl shadow-purple-300 text-white rounded-xl'>
                         Order Now
                     </button>
-                    <button className='p-3 px-5 bg-white shadow-xl  text-secondary rounded-xl'>
+                    <button className='p-3 px-5 bg-teal-50 shadow-xl  text-secondary rounded-xl'>
                         About us
                     </button>
                 </div>
