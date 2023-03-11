@@ -49,12 +49,12 @@ function CategoryList() {
 
             ) : (
 
-                <div className='flex flex-row  flex-wrap justify-center md:justify-start items-center pb-5 gap-5 w-full'>
+                <div className='flex flex-row ml-5 flex-wrap justify-center md:justify-start items-center pb-5 gap-5 w-full'>
                     {category.map((item, key) => (
                         <ItemCard key={key} item={item} />
                     ))}
                     <div className='w-[250px] h[300px] flex flex-col justify-center items-center'>
-                        <Link to="/home" className='opacity-50'>Back</Link>
+                        <Link to="dashboard/home" className='opacity-50'>Back</Link>
                     </div>
 
                 </div>
