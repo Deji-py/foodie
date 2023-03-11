@@ -1,6 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { Link, useLoaderData, useParams } from 'react-router-dom'
-import { CartCountContext } from '../Context/cartContext'
 import data from '../data'
 import ItemCard from '../Utilty/ItemCard'
 import { db } from '../firebase_config'
@@ -31,6 +30,9 @@ function CategoryList() {
             loadCategory()
         },
         [params.id])
+
+
+
     return (
         <>
             {loading ? (

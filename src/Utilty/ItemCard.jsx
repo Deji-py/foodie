@@ -1,30 +1,17 @@
 import { IconButton, Rating } from '@mui/material'
-import React, { useContext, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { MdAddShoppingCart, MdCheck } from 'react-icons/md'
-import food from "../Assets/Images/food2.jpg"
-import { CartCountContext } from '../Context/cartContext'
+
 
 function ItemCard({ item }) {
 
     const [added, setAdded] = useState(false)
 
-    const { cart, setCart } = useContext(CartCountContext)
 
 
 
 
-    const addItem = () => {
-        setAdded(true)
-        setCart([...cart, item])
-    }
 
-    const removeItem = () => {
-        setAdded(false)
-        const newCart = [...cart]
-        newCart.splice(2, 1)
-        setCart(newCart)
-        // setCartCount([newCart])
-    }
 
 
     return (
@@ -53,11 +40,11 @@ function ItemCard({ item }) {
                         color: "#AD92F1"
                     }} />
 
-                    {cart.includes(item) ? (<button
-                        onClick={removeItem}
+                    {added ? (<button
+
                         className='bg-primary flex items-center flex-row gap-2 text-white p-2 rounded-full'>
                         <MdCheck /> Added
-                    </button>) : (<IconButton onClick={addItem} sx={{ color: "black" }}>
+                    </button>) : (<IconButton sx={{ color: "black" }}>
                         <MdAddShoppingCart size={20} />
                     </IconButton>)}
                 </div>

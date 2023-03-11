@@ -4,26 +4,29 @@ import "./index.css";
 
 import ErrorPage from "./Pages/ErrorPage.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import CategoryList, { categoryLoader } from "./Routes/CategoryList";
-
+import CategoryList from "./Routes/CategoryList";
 import App from "./Routes/App";
-import { catLoader } from "./Components/Categories";
-import { CartCountContext } from "./Context/cartContext";
-import HomePage, { homepageLoader } from "./Routes/HomePage";
+import HomePage from "./Routes/HomePage";
 import Wallet from "./Routes/Wallet";
 import Admin from "./Routes/Admin";
+import Dashboard from "./Routes/Dashboard";
 
 const routes = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+  },
+  {
+    path: "dashboard",
+    element: <Dashboard />,
     children: [
       {
         path: "home",
         element: <HomePage />,
+        errorElement: <ErrorPage />,
         children: [
           {
-            path: "/home/categories/:id",
+            path: "home/categories/:id",
             element: <CategoryList />,
             errorElement: <ErrorPage />,
           },

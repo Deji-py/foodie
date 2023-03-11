@@ -38,7 +38,7 @@ function SideBar({ openSideNav, setOpenSideNav, route }) {
              shadow-xl bg-gradient-to-b relative  from-primary to-secondary px-2  justify-start items-center"
             >
                 <div className="h-[20%]" />
-                <Link to={"/home"} className={"w-full"}>
+                <Link to={"/dashboard/home"} className={"w-full"}>
                     <MenuButton
                         style={{
                             boxShadow: route.pathname === "/home" ? "2px 2px 8px rgba(0,0,0,0.3)" : "transparent",

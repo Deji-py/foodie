@@ -26,7 +26,7 @@ function CategoryCard({ title, image, route }) {
 
 
     return (
-        <Link to={"categories/" + route}
+        <Link to={"home/categories/" + route}
             onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}
             className='transition ease-out
          text-black hover:text-white cursor-pointer 
