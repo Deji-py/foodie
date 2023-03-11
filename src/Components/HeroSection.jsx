@@ -12,11 +12,11 @@ function HeroSection() {
                     It's not just<span className='text-secondary'> food,</span> its's an Experience
                 </h1>
                 <p className='md:w-[400px] w-full md:px-0 px-2 md:text-start text-center text-gray-600'>We are the most fastest and reliable food delivery service in the world, Search for your Favourite food</p>
-                <div className='flex flex-row w-full md:w-[400px] gap-10 justify-center md:justify-start mt-3 items-center'>
+                <div className='flex flex-row w-full md:w-[400px] justify-between md:justify-start md:gap-20 my-3 items-center'>
                     <button className='p-3 px-5 bg-primary  shadow-xl shadow-purple-300 text-white rounded-xl'>
                         Order Now
                     </button>
-                    <button className='p-3 px-5 bg-teal-50 shadow-xl  text-secondary rounded-xl'>
+                    <button className='p-3 px-5 bg-teal-50 shadow-xl  text-teal-800 rounded-xl'>
                         About us
                     </button>
                 </div>
