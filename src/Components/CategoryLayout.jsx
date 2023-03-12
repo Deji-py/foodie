@@ -19,7 +19,7 @@ const LayoutCard = () => {
     )
 }
 
-const CategoryLayout = () => {
+const CatLayout = () => {
     return (
         <div className='animate rounded-2xl w-[130px] h-[150px]'>
 
@@ -27,16 +27,11 @@ const CategoryLayout = () => {
     )
 }
 
-function HomeLayout() {
+function CategoryLayout() {
 
     return (
         <div className='w-screen h-fit  mt-10 px-2 flex flex-col   justify-center items-center'>
-            <p className='animate w-[120px] h-[15px] mb-5 ml-5  self-start rounded-full'></p>
-            <div className='flex flex-row self-start px-2 p-5  w-full gap-5'>
-                <CategoryLayout />
-                <CategoryLayout />
-                <CategoryLayout />
-            </div>
+
             <div className=' w-full h-full  gap-5 flex flex-row flex-wrap '>
                 <LayoutCard />
                 <LayoutCard />
@@ -49,4 +44,4 @@ function HomeLayout() {
     )
 }
 
-export default HomeLayout
+export default CategoryLayout

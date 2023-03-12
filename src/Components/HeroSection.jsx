@@ -26,19 +26,19 @@ function HeroSection() {
                 <div className='flex gap-3 mt-3  flex-row w-full md:w-[400px] justify-center md:justify-start items-center'>
 
                     <AvatarGroup>
-                        <Avatar src='' sx={{
+                        <Avatar src='https://img.freepik.com/free-photo/smiling-businessman-face-portrait-wearing-suit_53876-148138.jpg?size=626&ext=jpg&uid=R31019825&ga=GA1.2.1152281857.1676819121&semt=ais' sx={{
                             width: 30,
                             height: 30
                         }} />
-                        <Avatar src='' sx={{
+                        <Avatar src='https://img.freepik.com/free-photo/close-up-shot-pretty-woman-with-perfect-teeth-dark-clean-skin-having-rest-indoors-smiling-happily-after-received-good-positive-news_273609-1248.jpg?size=626&ext=jpg&uid=R31019825&ga=GA1.1.1152281857.1676819121&semt=sph' sx={{
                             width: 30,
                             height: 30
                         }} />
-                        <Avatar src='' sx={{
+                        <Avatar src='https://img.freepik.com/free-photo/confident-business-woman-portrait-smiling-face_53876-137693.jpg?size=626&ext=jpg&uid=R31019825&ga=GA1.1.1152281857.1676819121&semt=sph' sx={{
                             width: 30,
                             height: 30
                         }} />
-                        <Avatar src='' sx={{
+                        <Avatar src='https://img.freepik.com/free-photo/dreamy-young-woman-sunglasses-looking-front_197531-16739.jpg?size=626&ext=jpg&uid=R31019825&ga=GA1.1.1152281857.1676819121&semt=sph' sx={{
                             width: 30,
                             height: 30
                         }} />

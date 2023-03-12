@@ -50,19 +50,7 @@ function SideBar({ openSideNav, setOpenSideNav, route }) {
                         icon={<MdHome size={25} />}
                     />
                 </Link>
-                <Link to={"wallet"} className={"w-full "}>
-                    <MenuButton
 
-                        style={{
-                            boxShadow: route.pathname === "/wallet" ? "2px 2px 8px rgba(0,0,0,0.3)" : "transparent",
-                            background: route.pathname === "/wallet" ? "white" : "transparent",
-                            color: route.pathname === "/wallet" ? "black" : "white"
-                        }}
-                        title={"Wallet"}
-                        visible={openSideNav}
-                        icon={<MdAccountBalanceWallet size={25} />}
-                    />
-                </Link>
                 <Link to={"admin"} className={"w-full"}>
                     <MenuButton
                         style={{

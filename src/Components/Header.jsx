@@ -4,15 +4,17 @@ import Logo from "../Assets/Images/salad.png"
 import { MdMenu, MdOutlineShoppingCart, MdSearch } from "react-icons/md"
 
 
-function Header({ setOpenCart, openCart, showCart, showMenuDrop, showSearch }) {
+function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showSearch }) {
   const [showDropDown, setShowDropDown] = useState(false)
   const [showCartIcon, setShowCartIcon] = useState(false)
   const [showSearchIcon, setShowSearchIcon] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(false)
   useEffect(() => {
     setShowCartIcon(showCart)
     setShowDropDown(showMenuDrop)
     setShowSearchIcon(showSearch)
-  }, [showCart, showMenuDrop, showSearch])
+    setLoggedIn(loggedin)
+  }, [showCart, showMenuDrop, showSearch, loggedin])
 
   return (
     <div className='flex flex-row sticky top-0 z-[100] backdrop-blur-xl  bg-[rgba(243,244,246,0.8)]  justify-between items-center   py-3  pr-5 pl-3 text-[0.8rem]' >
@@ -45,17 +47,21 @@ function Header({ setOpenCart, openCart, showCart, showMenuDrop, showSearch }) {
       )}
 
       <div className='flex flex-row justify-evenly items-center  md:w-[30%]'>
-        <div className='hidden md:flex flex-wrap gap-5'>
+        {loggedIn === false && <div className='hidden md:flex flex-wrap gap-5'>
           <button className={"bg-primary shadow-xl font-medium p-2 rounded-full px-10 text-white"}>Login</button>
           <button className={"bg-secondary p-2 shadow-xl font-medium rounded-full px-10 text-white"}>Signup</button>
+        </div>}
+        <div className='flex flex-row justify-center items-center gap-5'>
+
+          {loggedIn && <div className='flex flex-row justify-start md:mr-0 mr-5 items-center gap-3'>
+            <img className='md:w-[35px] w-[40px] h-[40px] md:h-[35px] rounded-full' src='https://img.freepik.com/free-photo/handsome-adult-male-posing_23-2148729713.jpg?w=740&t=st=1677006922~exp=1677007522~hmac=fde7d1dc20a3c88395322e973ebf47c3bb4aba7b4c2335a4c81b9685ec0caa00' />
+          </div>}
+
+          {loggedIn === false && (
+
+            <button className={"  bg-primary p-2 md:hidden flex  shadow-xl font-medium rounded-full px-10 text-white"}>Signup</button>
+          )}
         </div>
-        {/* <div className='flex flex-row justify-start items-center gap-3'>
-          <img className='w-[30px] h-[30px] rounded-full' src='https://img.freepik.com/free-photo/handsome-adult-male-posing_23-2148729713.jpg?w=740&t=st=1677006922~exp=1677007522~hmac=fde7d1dc20a3c88395322e973ebf47c3bb4aba7b4c2335a4c81b9685ec0caa00' />
-          <p className='text-[0.7rem] md:text-[0.9rem]  '>David Mike</p>
-        </div> */}
-
-
-        <button className={"  bg-primary p-2 md:hidden flex  shadow-xl font-medium rounded-full px-10 text-white"}>Signup</button>
 
         {showCartIcon && (
 

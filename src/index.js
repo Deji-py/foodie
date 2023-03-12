@@ -26,16 +26,13 @@ const routes = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
           {
-            path: "home/categories/:id",
+            path: ":id",
             element: <CategoryList />,
             errorElement: <ErrorPage />,
           },
         ],
       },
-      {
-        path: "wallet",
-        element: <Wallet />,
-      },
+
       {
         path: "admin",
         element: <Admin />,

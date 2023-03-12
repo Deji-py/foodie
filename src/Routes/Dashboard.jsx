@@ -28,7 +28,7 @@ function Dashboard() {
                 className="flex-1 h-screen overflow-y-scroll bg-gray-100 "
                 onMouseOver={() => setOpenSideNav(false)}
             >
-                <Header setOpenCart={setOpenCart} openCart={openCart} />
+                <Header loggedin={true} showCart={true} setOpenCart={setOpenCart} openCart={openCart} />
                 <div className=" flex  flex-row h-fit w-full">
                     <Outlet />
                     <Cart openCart={openCart} setOpenCart={setOpenCart} />

@@ -27,7 +27,7 @@ function Categories() {
         <div className='flex flex-col mt-10 w-full justify-start overflow-hidden items-start'>
             <p className='pl-5 p-2 text-gray-500 ' >Categories</p>
             <div className=' w-full'>
-                <div className='flex px-3 overflow-x-scroll md:overflow-x-hidden flex-row w-full  gap-3 py-2'>
+                <div className='flex px-2 overflow-x-scroll md:overflow-x-hidden flex-row w-full  gap-3 py-2'>
                     {categories.map((items, key) => (
                         <CategoryCard key={key}
                             image={items.data().image}
