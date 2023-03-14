@@ -1,11 +1,21 @@
 import { IconButton, Rating } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { MdAdd, MdAddShoppingCart, MdCancel, MdCheck, MdRemove, MdTimer } from 'react-icons/md'
+import { CartContext } from '../Context/CartProvider'
 
 
-function ItemCard({ item }) {
+function ItemCard({ item, addOneToCart, removeOneFromCart }) {
 
     const [added, setAdded] = useState(false)
+    const { cart, addToItem } = useContext(CartContext)
+
+    useEffect(() => {
+        cart.forEach((i) => {
+            if (i.id === item.id) {
+                setAdded(true)
+            }
+        })
+    }, [])
 
 
 
@@ -46,22 +56,28 @@ function ItemCard({ item }) {
 
                         <div className='flex flex-row justify-center items-center gap-5'>
                             <div className='flex text-[1.1rem]  flex-row justify-center gap-2 items-center'>
-                                <button className='p-1 py-0 bg-teal-200 text-teal-800'>
+                                <button onClick={() => addToItem(item)} className='p-1 py-0 bg-teal-200 text-teal-800'>
                                     <MdAdd />
                                 </button>
-                                <p className='p-1 py-0 '>1</p>
+                                <p className='p-1 py-0 '>{item.quantity}</p>
                                 <button className='p-1 py-0 bg-teal-200 text-teal-800'>
                                     <MdRemove />
                                 </button>
                             </div>
                             <button
-                                onClick={() => setAdded(false)}
+                                onClick={() => {
+                                    removeOneFromCart()
+                                    setAdded(false)
+                                }}
                                 className='bg-red-600 flex text-[0.7rem] items-center flex-row gap-2 text-white p-2 rounded-full'>
                                 <MdCancel /> Remove
                             </button>
                         </div>
                     ) : (
-                        <IconButton onClick={() => setAdded(true)} sx={{ color: "black", padding: 0.65 }}>
+                        <IconButton onClick={() => {
+                            addOneToCart()
+                            setAdded(true)
+                        }} sx={{ color: "black", padding: 0.65 }}>
                             <MdAddShoppingCart size={20} />
                         </IconButton>)}
                 </div>

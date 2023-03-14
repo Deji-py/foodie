@@ -6,6 +6,7 @@ import "../App.css";
 import Cart from "../Components/Cart";
 import Header from "../Components/Header.jsx";
 import SideBar from "../Components/SideBar";
+import CartProvider from "../Context/CartProvider";
 
 
 function Dashboard() {
@@ -15,26 +16,28 @@ function Dashboard() {
     const navigate = useNavigate();
 
     return (
-        <div
-            className=" font-medium w-full overflow-y-hidden flex  flex-row "
-            onMouseOut={() => setOpenSideNav(false)}
-        >
-            <SideBar
-                route={route}
-                openSideNav={openSideNav}
-                setOpenSideNav={setOpenSideNav}
-            />
+        <CartProvider>
             <div
-                className="flex-1 h-screen overflow-y-scroll bg-gray-100 "
-                onMouseOver={() => setOpenSideNav(false)}
+                className=" font-medium w-full overflow-y-hidden flex  flex-row "
+                onMouseOut={() => setOpenSideNav(false)}
             >
-                <Header loggedin={true} showCart={true} setOpenCart={setOpenCart} openCart={openCart} />
-                <div className=" flex  flex-row h-fit w-full">
-                    <Outlet />
-                    <Cart openCart={openCart} setOpenCart={setOpenCart} />
+                <SideBar
+                    route={route}
+                    openSideNav={openSideNav}
+                    setOpenSideNav={setOpenSideNav}
+                />
+                <div
+                    className="flex-1 h-screen overflow-y-scroll bg-gray-100 "
+                    onMouseOver={() => setOpenSideNav(false)}
+                >
+                    <Header loggedin={true} showCart={true} setOpenCart={setOpenCart} openCart={openCart} />
+                    <div className=" flex  flex-row h-fit w-full">
+                        <Outlet />
+                        <Cart openCart={openCart} setOpenCart={setOpenCart} />
+                    </div>
                 </div>
             </div>
-        </div>
+        </CartProvider>
     )
 }
 

@@ -1,12 +1,13 @@
 import { Avatar, CircularProgress, useStepContext } from '@mui/material'
 import { collection, getDoc, getDocs } from 'firebase/firestore'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { MdError, MdLiveTv } from 'react-icons/md'
 import { Outlet, useAsyncError, useLoaderData, useLocation, useRouteError } from 'react-router-dom'
 import Categories from '../Components/Categories'
 import HeroSection from '../Components/HeroSection'
 import HomeLayout from '../Components/HomeLayout'
 import Weserve from '../Components/Weserve'
+import { CartContext } from '../Context/CartProvider'
 import { db } from '../firebase_config'
 import ItemCard from '../Utilty/ItemCard'
 import Modal from '../Utilty/Modal'
@@ -69,13 +70,14 @@ function HomePage() {
         })
     }
 
+    const { cart, addOneToCart, removeOneFromCart } = useContext(CartContext)
 
     useEffect(() => {
 
         loadAll()
+        console.log(cart)
 
-    }, [])
-
+    }, [cart])
 
 
 
@@ -100,11 +102,11 @@ function HomePage() {
                                     ) : (
                                         <div className='w-full flex flex-col  justify-center md:justify-start gap-5 px-2 items-center '>
                                             <Dash />
-                                            <Categories />
+                                            <Categories allItems={all} />
                                             <p className='text-gray-500 font-[500]'>-All Categories-</p>
                                             <div className='w-full flex flex-col md:flex-row md:flex-wrap  justify-center md:justify-start gap-5 px-2 items-center'>
                                                 {all.map((item, key) => (
-                                                    <ItemCard item={item} key={key} />
+                                                    <ItemCard removeOneFromCart={() => removeOneFromCart(item)} addOneToCart={() => addOneToCart(item)} item={item} key={key} />
                                                 ))}
                                             </div>
                                         </div>
@@ -116,7 +118,6 @@ function HomePage() {
                         </div>
                     ) : (
                         <div className='flex flex-row md:px-0 md:justify-center justify-start items-center flex-wrap gap-5 pb-10'>
-
                             <Outlet />
                         </div>
                     )}

@@ -31,7 +31,6 @@ function CategoryLayout() {
 
     return (
         <div className='w-screen h-fit  mt-10 px-2 flex flex-col   justify-center items-center'>
-
             <div className=' w-full h-full  gap-5 flex flex-row flex-wrap '>
                 <LayoutCard />
                 <LayoutCard />

@@ -1,7 +1,8 @@
 import { Avatar, Badge, IconButton } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Logo from "../Assets/Images/salad.png"
 import { MdMenu, MdOutlineShoppingCart, MdSearch } from "react-icons/md"
+import { CartContext } from '../Context/CartProvider'
 
 
 function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showSearch }) {
@@ -9,6 +10,7 @@ function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showS
   const [showCartIcon, setShowCartIcon] = useState(false)
   const [showSearchIcon, setShowSearchIcon] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)
+  const { getAllItems } = useContext(CartContext)
   useEffect(() => {
     setShowCartIcon(showCart)
     setShowDropDown(showMenuDrop)
@@ -72,9 +74,9 @@ function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showS
             boxShadow: "2px 2px 8px lightgray"
 
           }}>
-            {true ? (<div />) : (
+            {getAllItems() === 0 ? (<div />) : (
               <div className='absolute  top-0 right-0 text-white bg-primary rounded-full text-[0.6rem] w-3 h-3'>
-                0
+                {getAllItems()}
               </div>
             )}
 

@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { motion } from "framer-motion"
 import { } from "react-icons/fa"
 import { MdAdd } from 'react-icons/md'
 import { BiMinus } from 'react-icons/bi'
+import { CartContext } from '../Context/CartProvider'
 
 
 
@@ -37,6 +38,8 @@ const CartItem = ({ image, title, price, quantity }) => {
 
 function Cart({ openCart, setOpenCart }) {
 
+    const { cart } = useContext(CartContext)
+
 
     return (
         <div style={{
@@ -49,18 +52,31 @@ function Cart({ openCart, setOpenCart }) {
 
                 }}>
 
-                {/*Desktop cart */}
+                {cart.length !== 0 && (
+                    <div >
+                        {cart.map((item, key) => (
+                            <CartItem image={item.image} title={item.name} price={item.price} key={key} />
+                        ))}
+                    </div>
+                )}
+
 
 
             </motion.div>
             <div className=" flex md:hidden " >
-                <motion.div className=" overflow-hidden shadow-xl shadow-gray-600 absolute z-[100] top-0 right-0 h-screen flex-col justify-center items-center  bg-gray-100"
+                <motion.div className=" overflow-hidden pt-20  shadow-xl shadow-gray-600 absolute z-[100] top-0 right-0 h-screen flex-col justify-center items-center  bg-gray-100"
                     animate={{
                         width: openCart ? "80%" : "0%",
 
                     }}>
 
-                    {/*Mobile cart */}
+                    {cart.length !== 0 && (
+                        <div className='px-5' >
+                            {cart.map((item, key) => (
+                                <CartItem image={item.image} title={item.name} price={item.price} key={key} />
+                            ))}
+                        </div>
+                    )}
 
 
 
