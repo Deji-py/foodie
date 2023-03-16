@@ -59,7 +59,7 @@ function CategoryList() {
             ) : (
 
                 <div className='flex flex-row px-2 flex-wrap justify-center md:justify-start items-center pb-5 gap-5 w-full'>
-
+                    <p>{params.id}</p>
                     {category.map((item, key) => (
                         <ItemCard removeOneFromCart={() => removeOneFromCart(item)} addOneToCart={() => addOneToCart(item)} item={item} key={key} />
                     ))}

@@ -1,8 +1,9 @@
 import { Avatar, Badge, IconButton } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import Logo from "../Assets/Images/salad.png"
-import { MdMenu, MdOutlineShoppingCart, MdSearch } from "react-icons/md"
+import { MdCancel, MdMenu, MdOutlineShoppingCart, MdRemove, MdSearch } from "react-icons/md"
 import { CartContext } from '../Context/CartProvider'
+import { BiX } from 'react-icons/bi'
 
 
 function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showSearch }) {
@@ -10,6 +11,7 @@ function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showS
   const [showCartIcon, setShowCartIcon] = useState(false)
   const [showSearchIcon, setShowSearchIcon] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)
+  const { items } = useContext(CartContext)
   useEffect(() => {
     setShowCartIcon(showCart)
     setShowDropDown(showMenuDrop)
@@ -73,13 +75,17 @@ function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showS
             boxShadow: "2px 2px 8px lightgray"
 
           }}>
-            {true ? (<div />) : (
-              <div className='absolute  top-0 right-0 text-white bg-primary rounded-full text-[0.6rem] w-3 h-3'>
-
+            {items.length === 0 ? (<div />) : (
+              <div className='absolute  top-0 right-0 text-white bg-teal-800 rounded-full text-[0.6rem] w-3 h-3'>
+                {items.length}
               </div>
             )}
+            {!openCart ? (
+              <MdOutlineShoppingCart ShoppingCart className={"w-[25px] h-[25px] text-gray-800 md:w-5 md:h-5"} />
 
-            <MdOutlineShoppingCart ShoppingCart className={"w-[25px] h-[25px] md:w-5 md:h-5"} />
+            ) : (
+              <BiX ShoppingCart className={"w-[25px] h-[25px] text-gray-800 md:w-5 md:h-5"} />
+            )}
 
           </IconButton>
         )}

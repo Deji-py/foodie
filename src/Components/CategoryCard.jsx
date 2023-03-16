@@ -30,10 +30,10 @@ function CategoryCard({ title, image, route }) {
             onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}
             className='transition ease-out
          text-black hover:text-white cursor-pointer 
-         shadow-none hover:shadow-xl border-2 mt-5 flex flex-col w-[15em] h-[10em] rounded-br-3xl  
+         shadow-none hover:shadow-xl border-[0.5px] border-teal-600 mt-5 flex flex-col w-[15em] h-[8em] rounded-br-3xl  
          rounded-tl-3xl  rounded-xl  relative justify-center items-center'
             style={{
-                background: active ? "#AD92F1" : "white" && hover ? "white" : "white",
+                background: active ? "rgb(13 148 136)" : "white" && hover ? "white" : "white",
                 color: active ? "white" : "black"
             }}
         >

@@ -7,7 +7,8 @@ export const CartContext = createContext({
     addOneToCart: () => { },
     removeOneFromCart: () => { },
     deleteFromCart: () => { },
-    getTotalCost: () => { }
+    getTotalCost: () => { },
+    getSumTotal: () => { }
 })
 
 const CartProvider = ({ children }) => {
@@ -70,13 +71,39 @@ const CartProvider = ({ children }) => {
     }
 
 
+    const getTotalCost = (item) => {
+        let totalCost
+        let quantity = getProductQuantity(item)
+        if (quantity === 0) {
+            return
+        }
+        else {
+            totalCost = quantity * item.price
+        }
+
+        return totalCost
+    }
+
+
+    const getSumTotal = () => {
+        let sum = 0
+        cartProducts.map(product => {
+            let prices = getTotalCost(product)
+            sum += prices
+        })
+
+        return sum
+    }
+
+
     const contextValue = {
         items: cartProducts,
         getProductQuantity,
         addOneToCart,
         removeOneFromCart,
         deleteFromCart,
-        // getTotalCost
+        getTotalCost,
+        getSumTotal
     }
     return (
         <CartContext.Provider value={contextValue}>
