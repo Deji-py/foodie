@@ -70,14 +70,16 @@ function HomePage() {
         })
     }
 
-    const { cart, addOneToCart, removeOneFromCart } = useContext(CartContext)
+    const { items, addOneToCart, removeOneFromCart } = useContext(CartContext)
+
+
+
 
     useEffect(() => {
 
         loadAll()
-        console.log(cart)
 
-    }, [cart])
+    }, [items])
 
 
 

@@ -12,11 +12,14 @@ import CartProvider from "../Context/CartProvider";
 function Dashboard() {
     const [openSideNav, setOpenSideNav] = useState(false);
     const [openCart, setOpenCart] = useState(false);
+
+
     const route = useLocation();
     const navigate = useNavigate();
 
     return (
         <CartProvider>
+
             <div
                 className=" font-medium w-full overflow-y-hidden flex  flex-row "
                 onMouseOut={() => setOpenSideNav(false)}

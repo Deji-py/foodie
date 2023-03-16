@@ -10,7 +10,6 @@ function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showS
   const [showCartIcon, setShowCartIcon] = useState(false)
   const [showSearchIcon, setShowSearchIcon] = useState(false)
   const [loggedIn, setLoggedIn] = useState(false)
-  const { getAllItems } = useContext(CartContext)
   useEffect(() => {
     setShowCartIcon(showCart)
     setShowDropDown(showMenuDrop)
@@ -74,9 +73,9 @@ function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showS
             boxShadow: "2px 2px 8px lightgray"
 
           }}>
-            {getAllItems() === 0 ? (<div />) : (
+            {true ? (<div />) : (
               <div className='absolute  top-0 right-0 text-white bg-primary rounded-full text-[0.6rem] w-3 h-3'>
-                {getAllItems()}
+
               </div>
             )}
 

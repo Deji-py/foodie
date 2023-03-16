@@ -7,16 +7,36 @@ import { CartContext } from '../Context/CartProvider'
 function ItemCard({ item, addOneToCart, removeOneFromCart }) {
 
     const [added, setAdded] = useState(false)
-    const { cart, addToItem } = useContext(CartContext)
+    const { items, getProductQuantity, deleteFromCart } = useContext(CartContext)
+    const [count, setCount] = useState(1)
+
+
 
     useEffect(() => {
-        cart.forEach((i) => {
+        items.forEach((i) => {
             if (i.id === item.id) {
                 setAdded(true)
             }
         })
     }, [])
 
+
+    const handleAddQuantity = () => {
+        addOneToCart(item)
+    }
+
+    const handleAddToCart = () => {
+        addOneToCart()
+        setAdded(true)
+    }
+
+    const handleRemoveQuantity = () => {
+        removeOneFromCart(item)
+        let quantity = getProductQuantity(item)
+        if (quantity <= 1) {
+            setAdded(false)
+        }
+    }
 
 
 
@@ -56,34 +76,32 @@ function ItemCard({ item, addOneToCart, removeOneFromCart }) {
 
                         <div className='flex flex-row justify-center items-center gap-5'>
                             <div className='flex text-[1.1rem]  flex-row justify-center gap-2 items-center'>
-                                <button onClick={() => addToItem(item)} className='p-1 py-0 bg-teal-200 text-teal-800'>
+                                <button onClick={handleAddQuantity} className='p-1 py-0 bg-teal-200 text-teal-800'>
                                     <MdAdd />
                                 </button>
-                                <p className='p-1 py-0 '>{item.quantity}</p>
-                                <button className='p-1 py-0 bg-teal-200 text-teal-800'>
+                                <p className='p-1 py-0 '>{getProductQuantity(item)}</p>
+                                <button onClick={handleRemoveQuantity} className='p-1 py-0 bg-teal-200 text-teal-800'>
                                     <MdRemove />
                                 </button>
                             </div>
                             <button
                                 onClick={() => {
-                                    removeOneFromCart()
+                                    deleteFromCart(item)
                                     setAdded(false)
-                                }}
+                                }
+                                }
                                 className='bg-red-600 flex text-[0.7rem] items-center flex-row gap-2 text-white p-2 rounded-full'>
                                 <MdCancel /> Remove
                             </button>
                         </div>
                     ) : (
-                        <IconButton onClick={() => {
-                            addOneToCart()
-                            setAdded(true)
-                        }} sx={{ color: "black", padding: 0.65 }}>
+                        <IconButton onClick={handleAddToCart} sx={{ color: "black", padding: 0.65 }}>
                             <MdAddShoppingCart size={20} />
                         </IconButton>)}
                 </div>
             </div>
 
-        </div>
+        </div >
     )
 }
 

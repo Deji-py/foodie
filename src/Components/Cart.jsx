@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { motion } from "framer-motion"
 import { } from "react-icons/fa"
 import { MdAdd } from 'react-icons/md'
@@ -7,7 +7,7 @@ import { CartContext } from '../Context/CartProvider'
 
 
 
-const CartItem = ({ image, title, price, quantity }) => {
+const CartItem = ({ quantity, image, title, price }) => {
 
     return (
         <div className='flex w-[100%] py-2  flex-row justify-between items-center gap-5'>
@@ -38,7 +38,7 @@ const CartItem = ({ image, title, price, quantity }) => {
 
 function Cart({ openCart, setOpenCart }) {
 
-    const { cart } = useContext(CartContext)
+    const { items } = useContext(CartContext)
 
 
     return (
@@ -52,10 +52,10 @@ function Cart({ openCart, setOpenCart }) {
 
                 }}>
 
-                {cart.length !== 0 && (
+                {items.length !== 0 && (
                     <div >
-                        {cart.map((item, key) => (
-                            <CartItem image={item.image} title={item.name} price={item.price} key={key} />
+                        {items.map((item, key) => (
+                            <CartItem quantity={item.quantity} item={item} image={item.image} title={item.name} price={item.price} key={key} />
                         ))}
                     </div>
                 )}
@@ -70,10 +70,10 @@ function Cart({ openCart, setOpenCart }) {
 
                     }}>
 
-                    {cart.length !== 0 && (
+                    {items.length !== 0 && (
                         <div className='px-5' >
-                            {cart.map((item, key) => (
-                                <CartItem image={item.image} title={item.name} price={item.price} key={key} />
+                            {items.map((item, key) => (
+                                <CartItem quantity={item.quantity} image={item.image} title={item.name} price={item.price} key={key} />
                             ))}
                         </div>
                     )}
