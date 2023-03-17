@@ -9,7 +9,6 @@ function CategoryCard({ title, image, route }) {
     const [hover, setHover] = useState(false)
     const [active, setActive] = useState(false)
     const params = useParams()
-    const currentRoute = useLocation()
 
 
     useEffect(() => {
@@ -26,7 +25,7 @@ function CategoryCard({ title, image, route }) {
 
 
     return (
-        <Link to={"/dashboard/home/" + route}
+        <Link to={"/dashboard/categories/" + route}
             onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}
             className='transition ease-out
          text-black hover:text-white cursor-pointer 

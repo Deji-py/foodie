@@ -1,12 +1,13 @@
 import React from 'react'
+import { motion } from "framer-motion"
 
-function Modal(props) {
+function Modal({ setShowModal, children }) {
     return (
         <div className='absolute top-0 flex flex-col justify-center items-center left-0 w-screen h-screen '>
-            <div className='absolute z-50'>
-                {props.children}
-            </div>
-            <div className='absolute z-10 bg-[rgba(44,44,44,0.58)] w-full h-full' />
+
+            {children}
+
+            <div onClick={setShowModal} className='absolute z-10 bg-[rgba(44,44,44,0.58)] w-full h-full' />
         </div>
     )
 }

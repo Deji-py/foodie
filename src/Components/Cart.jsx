@@ -100,11 +100,11 @@ function Cart({ openCart, setOpenCart }) {
                                         <div className='flex flex-auto w-fit flex-row'>
 
                                             <div className='flex text-[0.9rem]  flex-row justify-center gap-2 items-center'>
-                                                <button onClick={() => addOneToCart(item)} className='p-1 py-0 bg-teal-200 text-teal-800'>
+                                                <button onClick={() => addOneToCart(item)} className='p-1 py-0 bg-teal-300 text-teal-800'>
                                                     <MdAdd />
                                                 </button>
                                                 <p className='p-1 py-0 '>{getProductQuantity(item)}</p>
-                                                <button onClick={() => removeOneFromCart(item)} className='p-1 py-0 bg-teal-200 text-teal-800'>
+                                                <button onClick={() => removeOneFromCart(item)} className='p-1 py-0 bg-teal-300 text-teal-800'>
                                                     <MdRemove />
                                                 </button>
                                             </div>
@@ -119,11 +119,15 @@ function Cart({ openCart, setOpenCart }) {
                                     </IconButton>
                                 </div>
                             ))}
+
+                            <Divider />
                             <div className='w-full flex mt-10 flex-col justify-center items-center'>
-                                <Divider />
-                                <h1 className='text-[1rem] opacit-50'>Sum total:</h1>
+                                <h1 className='text-[1rem] opacity-50'>Sum total:</h1>
                                 <p className='font-medium text-[1.6rem] font-bold'>{dollarString.format(getSumTotal())}</p>
                             </div>
+                            <button className='bg-primary text-white shadow-xl text-[1.1rem] mt-2 p-3 rounded-xl px-5 w-full'>
+                                Checkout
+                            </button>
                         </div>
                     ) : (
                         <div className='w-full h-[80%] flex flex-col justify-center items-center'>

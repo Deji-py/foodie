@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
-import { Link, useLoaderData, useParams } from 'react-router-dom'
+import { Link, Outlet, useLoaderData, useParams } from 'react-router-dom'
 import ItemCard from '../Utilty/ItemCard'
 import { db } from '../firebase_config'
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
@@ -7,6 +7,8 @@ import Categories from '../Components/Categories'
 import { MdError } from 'react-icons/md'
 import CategoryLayout from '../Components/CategoryLayout'
 import { CartContext } from '../Context/CartProvider'
+import Modal from '../Utilty/Modal'
+import Details from './Details'
 
 
 function CategoryList() {
@@ -15,6 +17,8 @@ function CategoryList() {
     const [category, setCategory] = useState([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
+    const [modalOpen, setModalOpen] = useState(false)
+    const [modalDetail, setModalDetail] = useState()
 
     const loadCategory = async () => {
         setLoading(true)
@@ -30,6 +34,7 @@ function CategoryList() {
     useEffect(
         () => {
             loadCategory()
+
         },
         [params.id])
 
@@ -54,6 +59,7 @@ function CategoryList() {
                             </div>
                         )
                     }
+                    <Outlet />
                 </>
 
             ) : (
@@ -61,12 +67,14 @@ function CategoryList() {
                 <div className='flex flex-row px-2 flex-wrap justify-center md:justify-start items-center pb-5 gap-5 w-full'>
                     <p>{params.id}</p>
                     {category.map((item, key) => (
-                        <ItemCard removeOneFromCart={() => removeOneFromCart(item)} addOneToCart={() => addOneToCart(item)} item={item} key={key} />
+                        <ItemCard setModalOpen={setModalOpen} setModalDetail={setModalDetail} removeOneFromCart={() => removeOneFromCart(item)} addOneToCart={() => addOneToCart(item)} item={item} key={key} />
                     ))}
-                    <div className='w-[250px] h-[300px] flex flex-col justify-center items-center'>
-                        <Link to="/dashboard/home" className='opacity-50'>Back</Link>
-                    </div>
-
+                    {modalOpen && (
+                        <Modal setShowModal={() => setModalOpen(false)}>
+                            <Details setModalOpen={setModalOpen} product={modalDetail} />
+                        </Modal>
+                    )
+                    }
                 </div>
             )}
         </>

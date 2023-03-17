@@ -76,12 +76,12 @@ function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showS
 
           }}>
             {items.length === 0 ? (<div />) : (
-              <div className='absolute  top-0 right-0 text-white bg-teal-800 rounded-full text-[0.6rem] w-3 h-3'>
+              <div className='absolute  top-0 right-0 text-white bg-primary rounded-full text-[0.6rem] w-3 h-3'>
                 {items.length}
               </div>
             )}
             {!openCart ? (
-              <MdOutlineShoppingCart ShoppingCart className={"w-[25px] h-[25px] text-gray-800 md:w-5 md:h-5"} />
+              <MdOutlineShoppingCart className={"w-[25px] h-[25px] text-gray-800 md:w-5 md:h-5"} />
 
             ) : (
               <BiX ShoppingCart className={"w-[25px] h-[25px] text-gray-800 md:w-5 md:h-5"} />

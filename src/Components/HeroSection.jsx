@@ -7,14 +7,14 @@ import foodie from "../Assets/Images/foodiehero.png"
 
 function HeroSection() {
     return (
-        <div className='bg-gray-100 w-full h-[110vh] pb-10 md:h-[550px]   flex flex-col-reverse md:flex-row justify-center items-center'>
+        <div className='bg-gray-100 w-full font-medium h-[110vh] pb-10 md:h-[550px]   flex flex-col-reverse md:flex-row justify-center items-center'>
             <div className=' flex-auto h-full md:w-full w-[80%] flex flex-col gap-[25px] justify-center items-center'>
                 <h1 className='md:text-[4rem] md:text-start text-center text-[2rem] font-bold w-full md:w-[400px]'>
                     It's not just<span className='text-secondary'> food,</span> its's an Experience
                 </h1>
                 <p className='md:w-[400px] w-full md:px-0 px-2 md:text-start text-center text-gray-600'>We are the most fastest and reliable food delivery service in the world, Search for your Favourite food</p>
                 <div className='flex flex-row w-full md:w-[400px] justify-between md:justify-start md:gap-20 my-3 items-center'>
-                    <Link to={"/dashboard/home"}>
+                    <Link to={"/dashboard/categories"}>
                         <button className='p-3 px-5 bg-primary  shadow-xl shadow-purple-300 text-white rounded-xl'>
                             Order Now
                         </button>

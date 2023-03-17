@@ -10,6 +10,7 @@ import HomePage from "./Routes/HomePage";
 import Wallet from "./Routes/Wallet";
 import Admin from "./Routes/Admin";
 import Dashboard from "./Routes/Dashboard";
+import Details from "./Routes/Details";
 
 const routes = createBrowserRouter([
   {
@@ -21,7 +22,7 @@ const routes = createBrowserRouter([
     element: <Dashboard />,
     children: [
       {
-        path: "home",
+        path: "categories",
         element: <HomePage />,
         errorElement: <ErrorPage />,
         children: [
@@ -32,7 +33,6 @@ const routes = createBrowserRouter([
           },
         ],
       },
-
       {
         path: "admin",
         element: <Admin />,
