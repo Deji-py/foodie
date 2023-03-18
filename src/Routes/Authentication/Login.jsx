@@ -15,15 +15,12 @@ function Login() {
     }, [])
 
     return (
-        <div className='bg-gray-100 w-screen h-screen relative  flex flex-row-reverse justify-center md:justify-start items-center'>
+        <div className='bg-gray-100 overflow-y-scroll pb-10 w-screen h-screen relative  flex flex-col md:flex-row-reverse justify-center md:justify-start items-center'>
+            <img src="https://img.freepik.com/free-photo/top-view-table-full-delicious-food-composition_23-2149141351.jpg?w=740&t=st=1679160260~exp=1679160860~hmac=8e44e76bd97df2f8b16e0677f585e4ae85dcc114e838966690168530545dded9" alt='image' className='w-full h-[20%] bg-gray-300 object-cover' />
+            <div className='md:w-[40%]  w-full pt-10 flex flex-col justify-center items-center'>
 
-            <div className='md:w-[40%]  w-full flex flex-col justify-center items-center'>
-                <div className=' font-medium w-fit translate-y-[-100%] z-50  h-fit flex flex-row justify-center items-center'>
-                    <img src={Logo} alt="Logo" className=" w-[40px] h-[40px]" />
-                    <p className='text-[2rem]  font-bold text-black ml-5'>Foodie</p>
-                </div>
-                <div className='md:w-[60%] w-[90%] mb-2'>
-                    <h1 className='font-bold text-[1.3rem] font-medium' >Welcome Back</h1>
+                <div className='md:w-[60%] w-[90%] text-center self-center mb-2'>
+                    <h1 className='font-bold text-[1.5rem] font-medium' >Welcome Back</h1>
                     <p className='text-[0.8rem]'>Login to account</p>
                 </div>
                 <form className='md:w-[60%] w-[90%] '>

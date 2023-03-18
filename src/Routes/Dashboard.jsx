@@ -6,6 +6,7 @@ import "../App.css";
 import Cart from "../Components/Cart";
 import Header from "../Components/Header.jsx";
 import SideBar from "../Components/SideBar";
+import AuthProvider from "../Context/AuthProvider";
 import CartProvider from "../Context/CartProvider";
 
 
@@ -18,24 +19,26 @@ function Dashboard() {
     const navigate = useNavigate();
 
     return (
-        <CartProvider>
+        <AuthProvider>
+            <CartProvider>
 
-            <div
-                className=" font-medium w-full overflow-y-hidden flex  flex-row "
-
-            >
                 <div
-                    className="flex-1 h-screen overflow-y-scroll bg-gray-100 "
-                    onMouseOver={() => setOpenSideNav(false)}
+                    className=" font-medium w-full overflow-y-hidden flex  flex-row "
+
                 >
-                    <Header loggedin={true} showCart={true} setOpenCart={setOpenCart} openCart={openCart} />
-                    <div className=" flex px-0 md:px-20  flex-row h-fit w-full">
-                        <Outlet />
-                        <Cart openCart={openCart} setOpenCart={setOpenCart} />
+                    <div
+                        className="flex-1 h-screen overflow-y-scroll bg-gray-100 "
+                        onMouseOver={() => setOpenSideNav(false)}
+                    >
+                        <Header loggedin={true} showCart={true} setOpenCart={setOpenCart} openCart={openCart} />
+                        <div className=" flex px-0 md:px-20  flex-row h-fit w-full">
+                            <Outlet />
+                            <Cart openCart={openCart} setOpenCart={setOpenCart} />
+                        </div>
                     </div>
                 </div>
-            </div>
-        </CartProvider>
+            </CartProvider>
+        </AuthProvider>
     )
 }
 

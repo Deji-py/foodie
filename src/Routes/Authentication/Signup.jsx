@@ -9,8 +9,11 @@ function Signup() {
 
             <div className='w-full md:w-[40%] pb-[50px] flex flex-col justify-center items-center'>
                 <div className=' font-medium w-fit z-50 mt-[200px] h-fit flex flex-row justify-center items-center'>
-                    <img src={Logo} alt="Logo" className=" w-[40px] h-[40px]" />
-                    <p className='text-[2rem]  font-bold text-black ml-5'>Foodie</p>
+                    <img src={Logo} alt="Logo" className=" w-[30px] h-[30px]" />
+                    <p className='text-[1.5rem]  font-bold text-black ml-3'>Foodie</p>
+                </div>
+                <div>
+                    <h1 className='text-[1.5rem] font-bold font-medium mt-5 '>Create Account</h1>
                 </div>
                 <form className='w-[90%] md:w-[60%]'>
                     <InputField title={"Firstname"} placeholder={"Eg. John"} type={"text"} />
