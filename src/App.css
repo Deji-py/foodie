@@ -1,0 +1,25 @@
+.animateRotate {
+  animation-name: rotate;
+  animation-iteration-count: infinite;
+  animation-play-state: running;
+  animation-direction: normal;
+  animation-fill-mode: forwards;
+  animation-duration: 20s;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotateZ(360deg);
+  }
+  50% {
+    transform: rotateZ(180deg);
+  }
+  100% {
+    tansform: rotateZ(360deg);
+  }
+}
+
+.imgdrop {
+  -webkit-filter: drop-shadow(5px 5px 5px #222222);
+  filter: drop-shadow(20px 10px 8px #2222222f);
+}
