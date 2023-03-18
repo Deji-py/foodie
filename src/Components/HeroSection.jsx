@@ -10,7 +10,7 @@ function HeroSection() {
     return (
         <div className='bg-gray-100 w-full font-medium h-[120vh] pb-10 md:h-[700px]   flex flex-col-reverse md:flex-row justify-center items-center'>
             <div className=' flex-auto h-full md:w-full w-[80%] flex flex-col gap-[25px] justify-center items-center'>
-                <h1 className='md:text-[4rem] md:text-start text-center text-[3rem] font-bold w-full md:w-[400px]'>
+                <h1 className='md:text-[4rem] md:text-start text-center text-[2rem] font-bold w-full md:w-[400px]'>
                     It's not just<span className='text-secondary'> food,</span> its's an Experience
                 </h1>
                 <p className='md:w-[400px] w-full md:px-0 px-2 md:text-start text-center text-gray-600'>We are the most fastest and reliable food delivery service in the world, Search for your Favourite food</p>
@@ -58,7 +58,7 @@ function HeroSection() {
                 </div>
             </div>
             <div className='w-full md:w-[50%] px-3 flex-none md:h-full md:pt-0  pt-10  overflow-hidden  flex flex-col justify-center items-center'>
-                <img src={foodie} alt="img" className='md:w-[80%]  w-[90%]  imgdrop animateRotate' />
+                <img src={foodie} alt="img" className='md:w-[80%]  w-[90%]  animateRotate' />
             </div>
         </div>
     )
