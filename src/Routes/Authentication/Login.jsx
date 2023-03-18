@@ -22,26 +22,26 @@ function Login() {
                     <img src={Logo} alt="Logo" className=" w-[40px] h-[40px]" />
                     <p className='text-[2rem]  font-bold text-black ml-5'>Foodie</p>
                 </div>
-                <div className='md:w-[60%] w-[80%] mb-2'>
-                    <h1 className='font-bold text-[1.5rem] font-medium' >Welcome Back</h1>
-                    <p>Login to account</p>
+                <div className='md:w-[60%] w-[90%] mb-2'>
+                    <h1 className='font-bold text-[1.3rem] font-medium' >Welcome Back</h1>
+                    <p className='text-[0.8rem]'>Login to account</p>
                 </div>
-                <form className='md:w-[60%] w-[80%] '>
+                <form className='md:w-[60%] w-[90%] '>
                     <InputField title={"Email"} placeholder={"Eg. example@gmail.com"} type={"email"} />
                     <InputField title={"Password"} type={"password"} />
                 </form>
-                <div className='md:w-[60%] w-[80%]   flex flex-col justify-end items-center'>
-                    <Link to="/login" className='text-blue-500 self-end'>
+                <div className='md:w-[60%] w-[90%]   flex flex-col justify-end items-center'>
+                    <Link to="/login" className='text-gray-500 text-[0.8rem] self-end'>
                         Forgot Password?
                     </Link>
                 </div>
-                <button className='bg-primary shadow-xl rounded-xl mt-10 mb-2 text-white p-3 md:w-[60%] w-[80%] '>
+                <button className='bg-primary shadow-xl rounded-xl mt-10 mb-2 text-white p-3 md:w-[60%] w-[90%] '>
                     Login
                 </button>
                 <center>
                     -or-
                 </center>
-                <button className='bg-white flex flex-row justify-center items-center gap-5 font-bold  shadow-xl rounded-xl my-2 text-black p-3 md:w-[60%] w-[80%] '>
+                <button className='bg-white flex flex-row justify-center items-center gap-5 font-bold  shadow-xl rounded-xl my-2 text-black p-3 md:w-[60%] w-[90%] '>
                     <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="googleLogo" className='w-[20px] h-[20px]' />
                     Continue with google
                 </button>
