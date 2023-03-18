@@ -57,7 +57,7 @@ function HeroSection() {
                     </div>
                 </div>
             </div>
-            <div className='w-full md:w-[50%] px-3 flex-none md:h-full md:pt-0  pt-10  overflow-hidden  flex flex-col justify-center items-center'>
+            <div className='w-full md:w-[50%] px-3 flex-none md:h-full md:pt-0  pt-10  md:overflow-hidden  flex flex-col justify-center items-center'>
                 <img src={foodie} alt="img" className='md:w-[80%]  w-[90%]  animateRotate' />
             </div>
         </div>
