@@ -27,16 +27,16 @@ function Cart({ openCart, setOpenCart }) {
     return (
         <div style={{
             width: openCart ? "100%" : "0%"
-        }} className='w-screen h-screen top-0 fixed text-[0.8rem] nd:text-[1rem] right-0 z-50 '>
+        }} className='w-screen h-screen  top-0 fixed text-[0.8rem] nd:text-[1rem] right-0 z-50 '>
             <div onClick={() => setOpenCart(false)} className='bg-gray-800 opacity-20 w-full h-full absolute top-0 left-0 z-20 ' />
-            <motion.div className=" overflow-hidden  shadow-medium absolute z-[100] right-0 h-screen flex-col justify-center items-center  bg-white"
+            <motion.div className=" overflow-hidden pt-20   shadow-medium absolute z-[100] right-0 h-screen flex-col justify-center items-center  bg-white"
                 animate={{
                     width: openCart ? "25%" : "0%",
 
                 }}>
 
-                {items.length !== 0 && (
-                    <div >
+                {items.length !== 0 ? (
+                    <div className='px-5' >
                         {items.map((item, key) => (
                             <div key={key} className='flex w-[100%] py-2 gap-2 flex-row justify-between items-center'>
                                 <div className='w-[40%] flex flex-row justify-center items-center gap-5 overflow-hidden '>
@@ -51,26 +51,40 @@ function Cart({ openCart, setOpenCart }) {
 
                                     <div className='flex flex-auto w-fit flex-row'>
 
-                                        <div className='flex text-[1.1rem]  flex-row justify-center gap-2 items-center'>
-                                            <button onClick={() => removeOneFromCart(item)} className='p-1 py-0 bg-teal-200 text-teal-800'>
+                                        <div className='flex text-[0.9rem]  flex-row justify-center gap-2 items-center'>
+                                            <button onClick={() => addOneToCart(item)} className='p-1 py-0 bg-teal-300 text-teal-800'>
                                                 <MdAdd />
                                             </button>
                                             <p className='p-1 py-0 '>{getProductQuantity(item)}</p>
-                                            <button onClick={() => addOneToCart(item)} className='p-1 py-0 bg-teal-200 text-teal-800'>
+                                            <button onClick={() => removeOneFromCart(item)} className='p-1 py-0 bg-teal-300 text-teal-800'>
                                                 <MdRemove />
                                             </button>
                                         </div>
 
                                     </div>
                                 </div>
-                                <div className='flex-auto truncate flex flex-col justify-center items-center'>
-                                    {"$ " + getTotalCost(item)}
+                                <div className='flex-auto text-[0.7rem] truncate flex flex-col justify-center items-center'>
+                                    {dollarString.format(getTotalCost(item))}
                                 </div>
                                 <IconButton onClick={() => deleteFromCart(item)} >
                                     <FaTrash size={12} color={"red"} />
                                 </IconButton>
                             </div>
                         ))}
+
+                        <Divider />
+                        <div className='w-full flex mt-10 flex-col justify-center items-center'>
+                            <h1 className='text-[1rem] opacity-50'>Sum total:</h1>
+                            <p className='font-medium text-[1.6rem] font-bold'>{dollarString.format(getSumTotal())}</p>
+                        </div>
+                        <button className='bg-primary text-white shadow-xl text-[1.1rem] mt-2 p-3 rounded-xl px-5 w-full'>
+                            Checkout
+                        </button>
+                    </div>
+                ) : (
+                    <div className='w-full h-[80%] flex flex-col justify-center items-center'>
+                        <img src={emptyCart} className={"w-[50%] h-[50%] filter grayscale object-fill"} />
+                        <h1 className='text-gray-500 text-[1.1rem]  '>Cart currently empty</h1>
                     </div>
                 )}
 

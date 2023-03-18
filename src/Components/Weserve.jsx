@@ -22,7 +22,7 @@ function Weserve() {
 
     return (
         <div className='w-full  flex flex-col relative justify-center items-center overflow-hidden h-fit py-10 text-white bg-gradient-to-br from-secondary to-primary'>
-            <img src={food} alt="img" className=' opacity-10 absolute w-full h-[100%] object-cover translate-x-[200px]' />
+            <img src={food} alt="img" className=' opacity-10 absolute  w-full h-[100%] object-cover md:translate-x-[200px]' />
             <p className='bg-white text-teal-500 z-20 px-10 p-2 rounded-full'>WHAT WE SERVE</p>
 
             <div className='w-full z-20 md:w-[450px] flex flex-col justify-center items-center text-white'>

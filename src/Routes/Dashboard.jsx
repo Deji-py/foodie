@@ -22,19 +22,14 @@ function Dashboard() {
 
             <div
                 className=" font-medium w-full overflow-y-hidden flex  flex-row "
-                onMouseOut={() => setOpenSideNav(false)}
+
             >
-                <SideBar
-                    route={route}
-                    openSideNav={openSideNav}
-                    setOpenSideNav={setOpenSideNav}
-                />
                 <div
                     className="flex-1 h-screen overflow-y-scroll bg-gray-100 "
                     onMouseOver={() => setOpenSideNav(false)}
                 >
                     <Header loggedin={true} showCart={true} setOpenCart={setOpenCart} openCart={openCart} />
-                    <div className=" flex  flex-row h-fit w-full">
+                    <div className=" flex px-0 md:px-20  flex-row h-fit w-full">
                         <Outlet />
                         <Cart openCart={openCart} setOpenCart={setOpenCart} />
                     </div>

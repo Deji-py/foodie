@@ -34,6 +34,14 @@ const routes = createBrowserRouter([
         ],
       },
       {
+        path: "login",
+        element: <Admin />,
+      },
+      {
+        path: "signup",
+        element: <Admin />,
+      },
+      {
         path: "admin",
         element: <Admin />,
       },

@@ -17,7 +17,7 @@ function Details({ product, setModalOpen }) {
     }, [items])
 
     return (
-        <div className='bg-gray-100 pb-20 overflow-y-scroll flex flex-col justify-start items-start text-medium p-5 px-3 absolute z-50 mt-20 w-[100vw] h-[96vh] z-100'>
+        <div className='bg-gray-100 pb-20 overflow-y-scroll flex flex-col justify-start items-start text-medium p-5 px-3 absolute z-50 mt-20 w-[100vw] md:w-[60vh] h-[96vh] md:h-[80vh] z-100'>
             <IconButton className='my-2' onClick={() => setModalOpen(false)}>
                 <BiX />
             </IconButton>
@@ -35,53 +35,49 @@ function Details({ product, setModalOpen }) {
             <div className='mt-5'>
                 <p>{product?.description}</p>
             </div>
-            <div>
-                <div>
-                    <p>
-                        {quantity === 0 ?
-                            (<div className='fixed bottom-[0.1rem] z-[100] left-0  px-5  w-full  my-5'>
+            <div className=' w-full mt-10'>
 
-                                <button onClick={() => addOneToCart(product)} className=' flex flex-row justify-center w-full items-center gap-5 bg-black text-white rounded-xl shadow-xl p-3'>
-                                    <MdAddShoppingCart size={20} />
-                                    <p className='text-[1.2rem]'>Add to cart</p>
+
+                {quantity === 0 ?
+                    (<div className='fixed  md:relative bottom-[0.1rem] z-[100] left-0  px-5  w-full  my-5'>
+
+                        <button onClick={() => addOneToCart(product)} className=' flex flex-row justify-center w-full items-center gap-5 bg-black text-white rounded-xl shadow-xl p-3'>
+                            <MdAddShoppingCart size={20} />
+                            <p className='text-[1.2rem]'>Add to cart</p>
+                        </button>
+                    </div>) :
+                    (
+                        <div className='flex flex-col justify-center  w-[94vw] md:w-[100%] px-5  items-center'>
+                            <div className='flex text-[1.5rem] w-full  flex-row justify-center gap-2 items-center'>
+                                <button onClick={() => addOneToCart(product)} className='p-2  bg-teal-300 shadow-lg text-teal-800'>
+                                    <MdAdd size={20} />
                                 </button>
-                            </div>) :
-                            (
-                                <div className='flex flex-col justify-center w-[94vw] items-center'>
-                                    <div className='w-full px-5'>
+                                <p className='p-3 '>{quantity}</p>
+                                <button onClick={() => removeOneFromCart(product)} className='p-2  bg-teal-300 shadow-lg text-teal-800'>
+                                    <MdRemove size={20} />
+                                </button>
+                            </div>
 
-                                        <div className='flex text-[1.5rem] mt-5  flex-row justify-center gap-2 items-center'>
-                                            <button onClick={() => addOneToCart(product)} className='p-2  bg-teal-300 shadow-lg text-teal-800'>
-                                                <MdAdd size={20} />
-                                            </button>
-                                            <p className='p-3 '>{quantity}</p>
-                                            <button onClick={() => removeOneFromCart(product)} className='p-2  bg-teal-300 shadow-lg text-teal-800'>
-                                                <MdRemove size={20} />
-                                            </button>
-                                        </div>
+                            <h1 className='text-[1.7rem] w-full  text-center mt-3 mb-10 font-bold '>{dollarString.format(cost)}</h1>
+                            <div className='w-full fixed md:relative bottom-[0.1rem] z-[100] left-0  px-5 md:px-0 gap-10  my-5 flex flex-row justify-between items-center '>
+                                <button onClick={() => setModalOpen(false)} className=' flex flex-row justify-center w-full md:w-fit items-center gap-5 bg-teal-500 text-white rounded-xl shadow-xl p-3'>
+                                    <MdCheck size={20} />
+                                    <p className='text-[1.2rem]'>Confirm</p>
+                                </button>
+                                <button onClick={() => deleteFromCart(product)} className=' flex flex-row justify-center w-full md:w-fit items-center gap-5 bg-red-500 text-white rounded-xl shadow-xl p-3'>
+                                    <BiX size={20} />
+                                    <p className='text-[1.2rem]'>Delete</p>
+                                </button>
+                            </div>
 
-                                        <h1 className='text-[1.7rem] w-full  text-center mt-3 mb-10 font-bold '>{dollarString.format(cost)}</h1>
-                                        <div className='w-full fixed bottom-[0.1rem] z-[100] left-0  px-5 gap-10  my-5 flex flex-row justify-between items-center '>
-                                            <button onClick={() => setModalOpen(false)} className=' flex flex-row justify-center w-full items-center gap-5 bg-teal-500 text-white rounded-xl shadow-xl p-3'>
-                                                <MdCheck size={20} />
-                                                <p className='text-[1.2rem]'>Confirm</p>
-                                            </button>
-                                            <button onClick={() => deleteFromCart(product)} className=' flex flex-row justify-center w-full items-center gap-5 bg-red-500 text-white rounded-xl shadow-xl p-3'>
-                                                <BiX size={20} />
-                                                <p className='text-[1.2rem]'>Delete</p>
-                                            </button>
-                                        </div>
-                                    </div>
 
-                                </div>
-                            )
-                        }
+                        </div>
+                    )
+                }
 
-                    </p>
-                </div>
-                <div>
 
-                </div>
+            </div>
+            <div>
             </div>
 
         </div>

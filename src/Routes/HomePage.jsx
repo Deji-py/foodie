@@ -22,7 +22,7 @@ const Dash = ({ name, avatar }) => {
     return (
 
         <div className=' w-full h-[150px]  mt-10 px-2 '>
-            <div className=' bg-gradient-to-r shadow-gray-300 from-secondary gap-5 to-primary flex flex-row items-center justify-start shadow-xl text-white rounded-2xl w-full h-full'>
+            <div className=' bg-gradient-to-r shadow-gray-300 from-secondary gap-5 to-primary flex flex-row items-center justify-start shadow-lg  text-white rounded-2xl w-full h-full'>
                 <div className='flex-1 border-r-2 flex flex-col justify-center items-center'>
 
                     <Avatar src={"https://img.freepik.com/free-photo/handsome-adult-male-posing_23-2148729713.jpg?w=740&t=st=1677006922~exp=1677007522~hmac=fde7d1dc20a3c88395322e973ebf47c3bb4aba7b4c2335a4c81b9685ec0caa00"} className='border-2 mb-2  border-teal-300' style={{
@@ -51,12 +51,6 @@ const Dash = ({ name, avatar }) => {
 }
 
 function HomePage() {
-    const [all, setAll] = useState([])
-    const [loading, setLoading] = useState(true)
-    const location = useLocation()
-
-
-    const { items, addOneToCart, removeOneFromCart } = useContext(CartContext)
 
 
     const navigate = useNavigate()

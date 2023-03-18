@@ -4,11 +4,12 @@ import ItemCard from '../Utilty/ItemCard'
 import { db } from '../firebase_config'
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
 import Categories from '../Components/Categories'
-import { MdError } from 'react-icons/md'
+import { MdError, MdSearch } from 'react-icons/md'
 import CategoryLayout from '../Components/CategoryLayout'
 import { CartContext } from '../Context/CartProvider'
 import Modal from '../Utilty/Modal'
 import Details from './Details'
+import { IconButton } from '@mui/material'
 
 
 function CategoryList() {
@@ -42,6 +43,17 @@ function CategoryList() {
 
     return (
         <>
+            <form className='w-full pt-10 sticky top-10 z-10  backdrop-blur-xl  bg-[rgba(243,244,246,0.8)]  flex-1 flex justify-center items-center px-5'>
+                <div className='relative md:block  md:w-[40%] w-full h-[50px] justify-start items-center'>
+                    <IconButton sx={{
+                        marginTop: 0.2,
+                        position: "absolute"
+                    }}>
+                        <MdSearch size={20} />
+                    </IconButton>
+                    <input type={"text"} className={" border-[0.5px] border-gray-300 p-3 pl-10 font-medium  text-[0.8rem] md:text-[0.8rem] w-full rounded-xl shadow-xl"} placeholder="What are you looking for..." />
+                </div>
+            </form>
             <Categories />
             {loading ? (
                 <>
@@ -64,8 +76,7 @@ function CategoryList() {
 
             ) : (
 
-                <div className='flex flex-row px-2 flex-wrap justify-center md:justify-start items-center pb-5 gap-5 w-full'>
-                    <p>{params.id}</p>
+                <div className='flex flex-row px- mt-10 flex-wrap justify-center md:justify-start items-center pb-5 gap-5 w-full'>
                     {category.map((item, key) => (
                         <ItemCard setModalOpen={setModalOpen} setModalDetail={setModalDetail} removeOneFromCart={() => removeOneFromCart(item)} addOneToCart={() => addOneToCart(item)} item={item} key={key} />
                     ))}

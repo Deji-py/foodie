@@ -24,7 +24,7 @@ function Categories() {
     }, [])
 
     return (
-        <div className='flex flex-col mt-10 w-full justify-start overflow-hidden items-start'>
+        <div className='flex flex-col  w-full justify-start overflow-hidden items-start'>
             <p className='pl-5 p-2 text-gray-500 ' >Categories</p>
             <div className=' w-full'>
                 <div className='flex px-2 overflow-x-scroll md:overflow-x-hidden flex-row w-full  gap-3 py-2'>

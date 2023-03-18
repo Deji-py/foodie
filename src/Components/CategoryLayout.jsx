@@ -19,22 +19,13 @@ const LayoutCard = () => {
     )
 }
 
-const CatLayout = () => {
-    return (
-        <div className='animate rounded-2xl w-[130px] h-[150px]'>
 
-        </div>
-    )
-}
 
 function CategoryLayout() {
 
     return (
-        <div className='w-screen h-fit  mt-10 px-2 flex flex-col   justify-center items-center'>
-            <div className=' w-full h-full  gap-5 flex flex-row flex-wrap '>
-                <LayoutCard />
-                <LayoutCard />
-                <LayoutCard />
+        <div className='w-[100%] h-fit  mt-10 px-2 flex flex-col   justify-center items-center'>
+            <div className=' w-full h-full flex-wrap  gap-5 flex flex-row  '>
                 <LayoutCard />
                 <LayoutCard />
                 <LayoutCard />
