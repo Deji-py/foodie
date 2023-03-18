@@ -11,6 +11,8 @@ import Wallet from "./Routes/Wallet";
 import Admin from "./Routes/Admin";
 import Dashboard from "./Routes/Dashboard";
 import Details from "./Routes/Details";
+import Login from "./Routes/Authentication/Login";
+import Signup from "./Routes/Authentication/Signup";
 
 const routes = createBrowserRouter([
   {
@@ -34,18 +36,18 @@ const routes = createBrowserRouter([
         ],
       },
       {
-        path: "login",
-        element: <Admin />,
-      },
-      {
-        path: "signup",
-        element: <Admin />,
-      },
-      {
         path: "admin",
         element: <Admin />,
       },
     ],
+  },
+  {
+    path: "login",
+    element: <Login />,
+  },
+  {
+    path: "signup",
+    element: <Signup />,
   },
 ]);
 

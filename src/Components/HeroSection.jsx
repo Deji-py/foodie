@@ -15,7 +15,7 @@ function HeroSection() {
                 </h1>
                 <p className='md:w-[400px] w-full md:px-0 px-2 md:text-start text-center text-gray-600'>We are the most fastest and reliable food delivery service in the world, Search for your Favourite food</p>
                 <div className='flex flex-row w-full md:w-[400px] justify-between md:justify-start md:gap-20 my-3 items-center'>
-                    <Link to={"/dashboard/categories"}>
+                    <Link to={"/login"}>
                         <button className='p-3 px-5 bg-primary  shadow-xl shadow-purple-300 text-white rounded-xl'>
                             Order Now
                         </button>
