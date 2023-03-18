@@ -1,18 +1,29 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import InputField from './components/InputField'
 import Logo from "../../Assets/Images/salad.png"
 import { motion } from "framer-motion"
+import { AuthContext } from '../../Context/AuthProvider'
+import { Alert, AlertTitle, Fade } from '@mui/material'
 
 function Login() {
 
     const [opacity, setOpacity] = useState(false)
+    const [alertVisibility, setAlertVisibility] = useState(false);
+
+
+
+    const { signUpSuccessful, setSignUpSuccessful } = useContext(AuthContext)
+
 
     useEffect(() => {
-
+        setSignUpSuccessful(false)
+        if (signUpSuccessful) {
+            setAlertVisibility(true)
+        }
         setOpacity(true)
 
-    }, [])
+    }, [signUpSuccessful])
 
     return (
         <div className='bg-gray-100 overflow-y-scroll pb-10 md:pb-0 w-screen h-screen relative  flex flex-col md:flex-row-reverse justify-center md:justify-start items-center'>
@@ -23,7 +34,7 @@ function Login() {
                     <h1 className='font-bold text-[1.5rem] font-medium' >Welcome Back</h1>
                     <p className='text-[0.8rem]'>Login to account</p>
                 </div>
-                <form className='md:w-[60%] w-[90%] '>
+                <form className='md:w-[60%] w-[90%] ' onSubmit={(e) => e.preventDefault()}>
                     <InputField title={"Email"} placeholder={"Eg. example@gmail.com"} type={"email"} />
                     <InputField title={"Password"} type={"password"} />
                 </form>
@@ -61,7 +72,20 @@ function Login() {
                 </motion.div>
                 <img src={"https://img.freepik.com/free-photo/top-view-fried-potatoes-tasty-french-fries-with-greens-oil-dark-desk_140725-115270.jpg?size=626&ext=jpg&uid=R31019825&ga=GA1.2.1152281857.1676819121&semt=ais"} className={"w-full h-full object-cover opacity-30"} />
             </div>
-
+            <Fade
+                in={alertVisibility} //Write the needed condition here to make it appear
+                timeout={{ enter: 1000, exit: 2000 }} //Edit these two values to change the duration of transition when the element is getting appeared and disappeard
+                addEndListener={() => {
+                    setTimeout(() => {
+                        setAlertVisibility(false)
+                    }, 1000);
+                }}
+            >
+                <Alert severity="success" variant="standard" className="alert absolute top-10 z-50">
+                    <AlertTitle>Success</AlertTitle>
+                    Registration Successful!
+                </Alert>
+            </Fade>
         </div>
     )
 }

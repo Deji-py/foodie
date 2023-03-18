@@ -13,6 +13,7 @@ import Dashboard from "./Routes/Dashboard";
 import Details from "./Routes/Details";
 import Login from "./Routes/Authentication/Login";
 import Signup from "./Routes/Authentication/Signup";
+import AuthProvider from "./Context/AuthProvider";
 
 const routes = createBrowserRouter([
   {
@@ -55,6 +56,8 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={routes} />
+    <AuthProvider>
+      <RouterProvider router={routes} />
+    </AuthProvider>
   </React.StrictMode>
 );

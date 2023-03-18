@@ -1,9 +1,45 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import InputField from './components/InputField'
 import Logo from "../../Assets/Images/salad.png"
+import { AuthContext } from '../../Context/AuthProvider'
+import { Alert, AlertTitle, Fade } from '@mui/material'
 
 function Signup() {
+
+    const { createUser, signUpSuccessful, setSignUpSuccessful } = useContext(AuthContext)
+
+    const [firstname, setFirstname] = useState("")
+    const [lastname, setLastname] = useState("")
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [error, setError] = useState(false)
+
+    const [confirmPassword, setConfirmPassword] = useState("")
+    const [alertVisibility, setAlertVisibility] = useState(false);
+
+
+    const navigate = useNavigate()
+
+    const handleSubmit = () => {
+        if (email === "" || password === "" || firstname === "") {
+            setError(true)
+            setSignUpSuccessful(false)
+            setAlertVisibility(false)
+
+        }
+        else {
+            setError(false)
+            createUser(email, password, firstname)
+            setSignUpSuccessful(true)
+            setAlertVisibility(true)
+            navigate("/login")
+        }
+    }
+
+
+
+
     return (
         <div className='bg-gray-100 w-screen h-screen overflow-y-scroll  flex flex-col justify-center items-center'>
 
@@ -16,13 +52,28 @@ function Signup() {
                     <h1 className='text-[1.5rem] font-bold font-medium mt-5 '>Create Account</h1>
                 </div>
                 <form className='w-[90%] md:w-[60%]'>
-                    <InputField title={"Firstname"} placeholder={"Eg. John"} type={"text"} />
-                    <InputField title={"Lastname"} placeholder={"Eg. doe"} type={"text"} />
-                    <InputField title={"Email"} placeholder={"Eg. example@gmail.com"} type={"email"} />
-                    <InputField title={"Password"} type={"password"} />
-                    <InputField title={"Confirm Password"} type={"password"} />
+                    <InputField title={"Firstname"} style={{
+                        border: error ? "solid red 1px" : "solid purple 0.8px"
+
+                    }} onChange={(e) => setFirstname(e.target.value)} value={firstname} placeholder={"Eg. John"} type={"text"} />
+                    <InputField title={"Lastname"} style={{
+                        border: error ? "solid red 1px" : "solid purple 0.8px"
+
+                    }} onChange={(e) => setLastname(e.target.value)} value={lastname} placeholder={"Eg. doe"} type={"text"} />
+                    <InputField title={"Email"} style={{
+                        border: error ? "solid red 1px" : "solid purple 0.8px"
+
+                    }} onChange={(e) => setEmail(e.target.value)} value={email} placeholder={"Eg. example@gmail.com"} type={"email"} />
+                    <InputField title={"Password"} style={{
+                        border: error ? "solid red 1px" : "solid purple 0.8px"
+
+                    }} onChange={(e) => setPassword(e.target.value)} value={password} type={"password"} />
+                    <InputField title={"Confirm Password"} style={{
+                        border: error ? "solid red 1px" : "solid purple 0.8px"
+
+                    }} onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} type={"password"} />
                 </form>
-                <button className='bg-primary shadow-xl rounded-xl mt-5 mb-2 text-white p-3 md:w-[60%] w-[90%] '>
+                <button onClick={handleSubmit} className='bg-primary shadow-xl rounded-xl mt-5 mb-2 text-white p-3 md:w-[60%] w-[90%] '>
                     Signup
                 </button>
                 <center>
@@ -34,11 +85,26 @@ function Signup() {
                 </button>
                 <p className='mt-5'>
                     Already have an account
-                    <Link to="/login" className='text-primary ml-2 font-bold '>
+                    <Link onClick={() => setSignUpSuccessful(false)} to="/login" className='text-primary ml-2 font-bold '>
                         Login
                     </Link>
                 </p>
+                <Fade
+                    in={alertVisibility} //Write the needed condition here to make it appear
+                    timeout={{ enter: 1000, exit: 2000 }} //Edit these two values to change the duration of transition when the element is getting appeared and disappeard
+                    addEndListener={() => {
+                        setTimeout(() => {
+                            setAlertVisibility(false)
+                        }, 1000);
+                    }}
+                >
+                    <Alert severity="success" variant="standard" className="alert absolute top-10 z-50">
+                        <AlertTitle>Success</AlertTitle>
+                        Registration Successful!
+                    </Alert>
+                </Fade>
             </div>
+
         </div>
     )
 }

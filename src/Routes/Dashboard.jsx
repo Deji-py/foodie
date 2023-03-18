@@ -19,26 +19,26 @@ function Dashboard() {
     const navigate = useNavigate();
 
     return (
-        <AuthProvider>
-            <CartProvider>
 
+        <CartProvider>
+
+            <div
+                className=" font-medium w-full overflow-y-hidden flex  flex-row "
+
+            >
                 <div
-                    className=" font-medium w-full overflow-y-hidden flex  flex-row "
-
+                    className="flex-1 h-screen overflow-y-scroll bg-gray-100 "
+                    onMouseOver={() => setOpenSideNav(false)}
                 >
-                    <div
-                        className="flex-1 h-screen overflow-y-scroll bg-gray-100 "
-                        onMouseOver={() => setOpenSideNav(false)}
-                    >
-                        <Header loggedin={true} showCart={true} setOpenCart={setOpenCart} openCart={openCart} />
-                        <div className=" flex px-0 md:px-20  flex-row h-fit w-full">
-                            <Outlet />
-                            <Cart openCart={openCart} setOpenCart={setOpenCart} />
-                        </div>
+                    <Header loggedin={true} showCart={true} setOpenCart={setOpenCart} openCart={openCart} />
+                    <div className=" flex px-0 md:px-20  flex-row h-fit w-full">
+                        <Outlet />
+                        <Cart openCart={openCart} setOpenCart={setOpenCart} />
                     </div>
                 </div>
-            </CartProvider>
-        </AuthProvider>
+            </div>
+        </CartProvider>
+
     )
 }
 

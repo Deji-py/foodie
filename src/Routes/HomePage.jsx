@@ -7,6 +7,7 @@ import Categories from '../Components/Categories'
 import HeroSection from '../Components/HeroSection'
 import HomeLayout from '../Components/HomeLayout'
 import Weserve from '../Components/Weserve'
+import { AuthContext } from '../Context/AuthProvider'
 import { CartContext } from '../Context/CartProvider'
 import { db } from '../firebase_config'
 import ItemCard from '../Utilty/ItemCard'
@@ -17,6 +18,7 @@ import Details from './Details'
 
 const Dash = ({ name, avatar }) => {
     const date = new Date()
+    const { user } = useContext(AuthContext)
     const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
     return (
@@ -35,7 +37,7 @@ const Dash = ({ name, avatar }) => {
                         {name}
                     </p>
                     <p className='text-[1.3rem]'>
-                        Ayodeji
+                        {user?.displayName}
                     </p>
                 </div>
                 <div className='w-[30%] '>
