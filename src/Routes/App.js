@@ -11,7 +11,7 @@ import Weserve from "../Components/Weserve";
 function App() {
   return (
     <div>
-      <Header loggedin={false} />
+      <Header loggedin={false} showMenuDrop={false} />
       <HeroSection />
       <Weserve />
       <Footer />

@@ -38,7 +38,7 @@ function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showS
   return (
     <div className='flex flex-row sticky top-0 z-[100] backdrop-blur-xl  bg-[rgba(243,244,246,0.8)]  justify-between items-center   py-3  pr-5 md:pr-20 pl-3 text-[0.8rem]' >
 
-      <div className=' md:hidden block'>
+      {showDropDown && <div className=' md:hidden block'>
 
         {dropdown ? <IconButton> <MdMenu size={25} onClick={() => setDropdown(false)} /></IconButton> : <IconButton> <BiX size={25} onClick={() => setDropdown(true)} /></IconButton>}
         {(dropdown === false) && <div className='absolute text-start rounded-xl text-[0.8rem] bg-white shadow-xl shadow-[#00000048] p-2 top-[50px] w-[40vw] left-5 '>
@@ -48,7 +48,7 @@ function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showS
             <li className='flex flex-row justify-start items-center gap-2 p-2 cursor-pointer' onClick={handleLogout}><BiLogOutCircle />Logout</li>
           </ol>
         </div>}
-      </div>
+      </div>}
 
 
 
