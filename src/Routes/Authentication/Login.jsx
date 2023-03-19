@@ -1,50 +1,106 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, redirect, useNavigate } from 'react-router-dom'
 import InputField from './components/InputField'
 import Logo from "../../Assets/Images/salad.png"
 import { motion } from "framer-motion"
 import { AuthContext } from '../../Context/AuthProvider'
 import { Alert, AlertTitle, Fade } from '@mui/material'
+import { browserLocalPersistence, setPersistence, signInWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '../../firebase_config'
+import { LineWave } from 'react-loader-spinner'
 
 function Login() {
 
     const [opacity, setOpacity] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [alertVisibility, setAlertVisibility] = useState(false);
 
-
-
-    const { signUpSuccessful, setSignUpSuccessful } = useContext(AuthContext)
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [error, setError] = useState(false)
+    const [message, setMessage] = useState("")
+    const { setCurrentUser } = useContext(AuthContext)
 
 
     useEffect(() => {
-        setSignUpSuccessful(false)
-        if (signUpSuccessful) {
-            setAlertVisibility(true)
+        if (auth.currentUser !== null) {
+            navigate("/dashboard/categories")
         }
         setOpacity(true)
 
-    }, [signUpSuccessful])
+    }, [])
+
+    useEffect(() => {
+        setError(false)
+        setMessage("")
+    }, [email, password])
+
+    const navigate = useNavigate()
+
+    const handleLogin = async () => {
+        setLoading(true)
+        if (password === "" || email === "") {
+            setLoading(false)
+        }
+        else {
+
+            setPersistence(auth, browserLocalPersistence).then(() => {
+                return signInWithEmailAndPassword(auth, email, password).then((data) => {
+                    setCurrentUser(data.user)
+                    setLoading(false)
+                    navigate("/dashboard/categories")
+                }).catch(e => {
+                    setError(true)
+                    setMessage(e.message.includes("wrong-password") ? "invalid username or password" : e.message)
+                    setLoading(false)
+                })
+            }).catch(e => {
+                console.log(e.message)
+                setLoading(false)
+            })
+
+        }
+    }
+
+
 
     return (
         <div className='bg-gray-100 overflow-y-scroll pb-10 md:pb-0 w-screen h-screen relative  flex flex-col md:flex-row-reverse justify-center md:justify-start items-center'>
             <img src="https://img.freepik.com/free-photo/top-view-table-full-delicious-food-composition_23-2149141351.jpg?w=740&t=st=1679160260~exp=1679160860~hmac=8e44e76bd97df2f8b16e0677f585e4ae85dcc114e838966690168530545dded9" alt='image' className='w-full md:hidden block h-[20%] bg-gray-300 object-cover' />
             <div className='md:w-[40%]  w-full pt-10 flex flex-col justify-center items-center'>
-
+                <p className='text-red-500 text-[0.8rem] '>{message}</p>
                 <div className='md:w-[60%] w-[90%] text-center self-center mb-2'>
                     <h1 className='font-bold text-[1.5rem] font-medium' >Welcome Back</h1>
                     <p className='text-[0.8rem]'>Login to account</p>
                 </div>
                 <form className='md:w-[60%] w-[90%] ' onSubmit={(e) => e.preventDefault()}>
-                    <InputField title={"Email"} placeholder={"Eg. example@gmail.com"} type={"email"} />
-                    <InputField title={"Password"} type={"password"} />
+
+                    <InputField title={"Email"} onChange={(e) => setEmail(e.target.value)} style={{
+                        border: error ? "solid 1px red" : "solid purple 1px"
+                    }} value={email} placeholder={"Eg. example@gmail.com"} type={"email"} />
+                    <InputField title={"Password"} style={{
+                        border: error ? "solid 1px red" : "solid purple 1px"
+                    }} onChange={(e) => setPassword(e.target.value)} value={password} type={"password"} />
                 </form>
                 <div className='md:w-[60%] w-[90%]   flex flex-col justify-end items-center'>
                     <Link to="/login" className='text-gray-500 text-[0.8rem] self-end'>
                         Forgot Password?
                     </Link>
                 </div>
-                <button className='bg-primary shadow-xl rounded-xl mt-10 mb-2 text-white p-3 md:w-[60%] w-[90%] '>
+                <button onClick={handleLogin} className='relative bg-primary overflow-hidden flex flex-row justify-center items-center shadow-xl rounded-xl h-[50px] mt-5 mb-2 text-white p-3 md:w-[60%] w-[90%] '>
                     Login
+                    <LineWave
+                        height="100"
+                        width="100"
+                        color="white"
+                        ariaLabel="line-wave"
+                        wrapperStyle={{ visibility: loading ? "visible" : "hidden", position: "absolute", right: 10, display: "flex", justifyContent: "center", items: "center", transform: "translateY(-12px)" }}
+                        wrapperClass=""
+                        visible={false}
+                        firstLineColor=""
+                        middleLineColor=""
+                        lastLineColor=""
+                    />
                 </button>
                 <center>
                     -or-
@@ -55,8 +111,9 @@ function Login() {
                 </button>
                 <p className='mt-5'>
                     Already have an account
-                    <Link to="/signup" className='text-primary ml-2 font-bold '>
+                    <Link to="/signup" className='text-primary ml-2 font-bold ' >
                         Signup
+
                     </Link>
                 </p>
             </div>
@@ -72,20 +129,7 @@ function Login() {
                 </motion.div>
                 <img src={"https://img.freepik.com/free-photo/top-view-fried-potatoes-tasty-french-fries-with-greens-oil-dark-desk_140725-115270.jpg?size=626&ext=jpg&uid=R31019825&ga=GA1.2.1152281857.1676819121&semt=ais"} className={"w-full h-full object-cover opacity-30"} />
             </div>
-            <Fade
-                in={alertVisibility} //Write the needed condition here to make it appear
-                timeout={{ enter: 1000, exit: 2000 }} //Edit these two values to change the duration of transition when the element is getting appeared and disappeard
-                addEndListener={() => {
-                    setTimeout(() => {
-                        setAlertVisibility(false)
-                    }, 1000);
-                }}
-            >
-                <Alert severity="success" variant="standard" className="alert absolute top-10 z-50">
-                    <AlertTitle>Success</AlertTitle>
-                    Registration Successful!
-                </Alert>
-            </Fade>
+
         </div>
     )
 }

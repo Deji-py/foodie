@@ -27,15 +27,17 @@ const Dash = ({ name, avatar }) => {
             <div className=' bg-gradient-to-r shadow-gray-300 from-secondary gap-5 to-primary flex flex-row items-center justify-start shadow-lg  text-white rounded-2xl w-full h-full'>
                 <div className='flex-1 border-r-2 flex flex-col justify-center items-center'>
 
-                    <Avatar src={"https://img.freepik.com/free-photo/handsome-adult-male-posing_23-2148729713.jpg?w=740&t=st=1677006922~exp=1677007522~hmac=fde7d1dc20a3c88395322e973ebf47c3bb4aba7b4c2335a4c81b9685ec0caa00"} className='border-2 mb-2  border-teal-300' style={{
+                    <Avatar src={avatar} className='border-2 mb-2  border-teal-300' style={{
                         width: 50,
                         height: 50,
 
                     }} />
-                    <p>
+                    <div className='flex flex-col justify-center items-center'>
                         Welcome Back,
-                        {name}
-                    </p>
+                        <p>
+                            {name}
+                        </p>
+                    </div>
                     <p className='text-[1.3rem]'>
                         {user?.displayName}
                     </p>
@@ -56,12 +58,15 @@ function HomePage() {
 
 
     const navigate = useNavigate()
+    const { currentUser } = useContext(AuthContext)
 
     useEffect(() => {
 
         navigate("Foods")
 
     }, [])
+
+
 
 
 
@@ -72,13 +77,15 @@ function HomePage() {
 
                     <div className='flex flex-col justify-center items-center md:flex-row  md:justify-start md:flex-wrap gap-5 pb-10'>
                         <div className='w-full flex flex-col  justify-center md:justify-start gap-5 px-2 items-center '>
-                            <Dash />
+                            <Dash name={currentUser?.displayName} />
                             <Outlet />
 
                         </div>
                     </div>
                 </div>
             </div>
+
+
 
         </>
 

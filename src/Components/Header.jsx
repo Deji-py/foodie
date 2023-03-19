@@ -3,15 +3,31 @@ import React, { useContext, useEffect, useState } from 'react'
 import Logo from "../Assets/Images/salad.png"
 import { MdCancel, MdMenu, MdOutlineShoppingCart, MdRemove, MdSearch } from "react-icons/md"
 import { CartContext } from '../Context/CartProvider'
-import { BiX } from 'react-icons/bi'
-
+import { BiLogOutCircle, BiX } from 'react-icons/bi'
+import { CgProfile } from "react-icons/cg"
+import { GrUserAdmin } from "react-icons/gr"
+import { signOut } from 'firebase/auth'
+import { auth } from '../firebase_config'
+import { useNavigate } from 'react-router-dom'
 
 function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showSearch }) {
   const [showDropDown, setShowDropDown] = useState(false)
   const [showCartIcon, setShowCartIcon] = useState(false)
   const [showSearchIcon, setShowSearchIcon] = useState(false)
+  const [dropdown, setDropdown] = useState(true)
   const [loggedIn, setLoggedIn] = useState(false)
   const { items } = useContext(CartContext)
+
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    setDropdown(false)
+    signOut(auth).then(() => {
+      navigate("/login")
+    }).then(e => console.log(e))
+  }
+
+
   useEffect(() => {
     setShowCartIcon(showCart)
     setShowDropDown(showMenuDrop)
@@ -20,14 +36,22 @@ function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showS
   }, [showCart, showMenuDrop, showSearch, loggedin])
 
   return (
-    <div className='flex flex-row sticky top-0 z-[100] backdrop-blur-xl  bg-[rgba(243,244,246,0.8)]  justify-between items-center   py-3  pr-5 pl-3 text-[0.8rem]' >
+    <div className='flex flex-row sticky top-0 z-[100] backdrop-blur-xl  bg-[rgba(243,244,246,0.8)]  justify-between items-center   py-3  pr-5 md:pr-20 pl-3 text-[0.8rem]' >
+
+      <div className=' md:hidden block'>
+
+        {dropdown ? <IconButton> <MdMenu size={25} onClick={() => setDropdown(false)} /></IconButton> : <IconButton> <BiX size={25} onClick={() => setDropdown(true)} /></IconButton>}
+        {(dropdown === false) && <div className='absolute text-start rounded-xl text-[0.8rem] bg-white shadow-xl shadow-[#00000048] p-2 top-[50px] w-[40vw] left-5 '>
+          <ol>
+            <li className='flex flex-row justify-start items-center gap-2 p-2 cursor-pointer' onClick={() => setDropdown(true)}><CgProfile />Edit profile</li>
+            <li className='flex flex-row justify-start items-center gap-2 p-2 cursor-pointer' onClick={() => setDropdown(true)}><GrUserAdmin />View as Admin</li>
+            <li className='flex flex-row justify-start items-center gap-2 p-2 cursor-pointer' onClick={handleLogout}><BiLogOutCircle />Logout</li>
+          </ol>
+        </div>}
+      </div>
 
 
-      {showDropDown && <div className='flex md:hidden mr-3'>
-        <IconButton>
-          <MdMenu size={25} />
-        </IconButton>
-      </div>}
+
 
       <div className=' font-medium md:w-[15%]  h-full flex flex-row justify-center items-center'>
         <img src={Logo} alt="Logo" className=" w-[35px] h-[35px] md:w-[40px]" />
@@ -35,30 +59,37 @@ function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showS
       </div>
 
 
-      {showSearchIcon && (
-        <div className=' flex-1 flex justify-center items-center px-5'>
-          <div className='relative hidden md:block  md:w-[40%] w-full justify-start items-center'>
-            <IconButton sx={{
+      {
+        showSearchIcon && (
+          <div className=' flex-1 flex justify-center items-center px-5'>
+            <div className='relative hidden md:block  md:w-[40%] w-full justify-start items-center'>
+              <IconButton sx={{
 
-              position: "absolute"
-            }}>
-              <MdSearch size={20} />
-            </IconButton>
-            <input type={"text"} className={" p-2 pl-10 font-medium  text-[0.7rem] md:text-[0.8rem] w-full rounded-2xl shadow-xl"} placeholder="What are you looking for..." />
+                position: "absolute"
+              }}>
+                <MdSearch size={20} />
+              </IconButton>
+              <input type={"text"} className={" p-2 pl-10 font-medium  text-[0.7rem] md:text-[0.8rem] w-full rounded-2xl shadow-xl"} placeholder="What are you looking for..." />
+            </div>
           </div>
+        )
+      }
+      {
+        showDropDown && <div className='hidden md:flex flex-row justify-between items-center'>
+          <ol className='flex flex-row gap-20 justify-between items-center'>
+            <li className='flex flex-row justify-start items-center gap-2 p-2 cursor-pointer' onClick={() => setDropdown(true)}><CgProfile />Edit profile</li>
+            <li className='flex flex-row justify-start items-center gap-2 p-2 cursor-pointer' onClick={() => setDropdown(true)}><GrUserAdmin />View as Admin</li>
+            <li className='flex flex-row justify-start items-center gap-2 p-2 cursor-pointer' onClick={handleLogout}><BiLogOutCircle />Logout</li>
+          </ol>
         </div>
-      )}
-
-      <div className='flex flex-row justify-evenly items-center  md:w-[30%]'>
+      }
+      <div className='flex flex-row justify-evenly items-center'>
         {loggedIn === false && <div className='hidden md:flex flex-wrap gap-5'>
           <button className={"bg-primary shadow-xl font-medium p-2 rounded-full px-10 text-white"}>Login</button>
           <button className={"bg-secondary p-2 shadow-xl font-medium rounded-full px-10 text-white"}>Signup</button>
         </div>}
-        <div className='flex flex-row justify-center items-center gap-5'>
 
-          {loggedIn && <div className='flex flex-row justify-start md:mr-0 mr-5 items-center gap-3'>
-            <img className='md:w-[35px] w-[40px] h-[40px] md:h-[35px] rounded-full' src='https://img.freepik.com/free-photo/handsome-adult-male-posing_23-2148729713.jpg?w=740&t=st=1677006922~exp=1677007522~hmac=fde7d1dc20a3c88395322e973ebf47c3bb4aba7b4c2335a4c81b9685ec0caa00' />
-          </div>}
+        <div className='flex flex-row justify-center items-center gap-5'>
 
           {loggedIn === false && (
 
@@ -93,7 +124,7 @@ function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showS
       </div>
 
 
-    </div>
+    </div >
   )
 }
 
