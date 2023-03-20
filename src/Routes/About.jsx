@@ -47,10 +47,7 @@ function About() {
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/600px-LinkedIn_logo_initials.png?20140125013055" className='w-[25px] h-[25px]' />
                 </div>
             </div>
-            <div>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/600px-LinkedIn_logo_initials.png?20140125013055" className='w-[25px] h-[25px]' />
 
-            </div>
         </div>
     )
 }
