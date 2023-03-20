@@ -20,9 +20,9 @@ function HeroSection() {
                             Order Now
                         </button>
                     </Link>
-                    <button className='p-3 px-5 bg-teal-100 shadow-xl  text-teal-800 rounded-xl'>
+                    <Link to={"/about"} className='p-3 px-5 bg-teal-100 shadow-xl  text-teal-800 rounded-xl'>
                         About us
-                    </button>
+                    </Link>
                 </div>
                 <div className='flex gap-3 mt-3  flex-row w-full md:w-[400px] justify-center md:justify-start items-center'>
 

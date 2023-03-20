@@ -8,7 +8,7 @@ import { CgProfile } from "react-icons/cg"
 import { GrUserAdmin } from "react-icons/gr"
 import { signOut } from 'firebase/auth'
 import { auth } from '../firebase_config'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showSearch }) {
   const [showDropDown, setShowDropDown] = useState(false)
@@ -85,15 +85,15 @@ function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showS
       }
       <div className='flex flex-row justify-evenly items-center'>
         {loggedIn === false && <div className='hidden md:flex flex-wrap gap-5'>
-          <button className={"bg-primary shadow-xl font-medium p-2 rounded-full px-10 text-white"}>Login</button>
-          <button className={"bg-secondary p-2 shadow-xl font-medium rounded-full px-10 text-white"}>Signup</button>
+          <Link to={"/login"} className={"bg-primary shadow-xl font-medium p-2 rounded-full px-10 text-white"}>Login</Link>
+          <Link to={"/signup"} className={"bg-secondary p-2 shadow-xl font-medium rounded-full px-10 text-white"}>Signup</Link>
         </div>}
 
         <div className='flex flex-row justify-center items-center gap-5'>
 
           {loggedIn === false && (
 
-            <button className={"  bg-primary p-2 md:hidden flex  shadow-xl font-medium rounded-full px-10 text-white"}>Signup</button>
+            <Link to={"/signup"} className={"bg-primary p-2 md:hidden flex  shadow-xl font-medium rounded-full px-10 text-white"}>Signup</Link >
           )}
         </div>
 

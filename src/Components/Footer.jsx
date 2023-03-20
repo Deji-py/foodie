@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import food from "../Assets/Images/eater.png"
 
 function Footer() {
@@ -8,9 +9,9 @@ function Footer() {
                 <h1 className='font-bold py-5 text-[1.7rem] w-[50%] text-center '>
                     Start your food journey <span className='text-secondary'>Now</span>
                 </h1>
-                <button className='bg-primary py-3 px-10 rounded-xl mb-20 text-white shadow-xl shadow-purple-300'>
+                <Link to={"/login"} className='bg-primary py-3 px-10 rounded-xl mb-20 text-white shadow-xl shadow-purple-300'>
                     Get Started
-                </button>
+                </Link>
             </div>
             <h1 className='font-bold text-[1rem]'>
                 copyright &copy; 2023
