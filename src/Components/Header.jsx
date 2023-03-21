@@ -3,12 +3,14 @@ import React, { useContext, useEffect, useState } from 'react'
 import Logo from "../Assets/Images/salad.png"
 import { MdCancel, MdMenu, MdOutlineShoppingCart, MdRemove, MdSearch } from "react-icons/md"
 import { CartContext } from '../Context/CartProvider'
-import { BiLogOutCircle, BiX } from 'react-icons/bi'
+import { BiHome, BiLogOutCircle, BiX } from 'react-icons/bi'
 import { CgProfile } from "react-icons/cg"
 import { GrUserAdmin } from "react-icons/gr"
 import { signOut } from 'firebase/auth'
 import { auth } from '../firebase_config'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { AuthContext } from '../Context/AuthProvider'
+
 
 function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showSearch }) {
   const [showDropDown, setShowDropDown] = useState(false)
@@ -16,7 +18,9 @@ function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showS
   const [showSearchIcon, setShowSearchIcon] = useState(false)
   const [dropdown, setDropdown] = useState(true)
   const [loggedIn, setLoggedIn] = useState(false)
+  const [active, setActive] = useState(false)
   const { items } = useContext(CartContext)
+  const { userIsAdmin } = useContext(AuthContext)
 
   const navigate = useNavigate()
 
@@ -26,6 +30,25 @@ function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showS
       navigate("/login")
     }).then(e => console.log(e))
   }
+
+  const location = useLocation()
+
+
+
+
+  const links = [{
+    id: 0,
+    title: "Home",
+    icon: <BiHome />,
+    path: "/dashboard/categories/foods"
+  },
+  {
+    id: 1,
+    title: "Edit Profile",
+    icon: <CgProfile />,
+    path: "/dashboard/profile"
+  },
+  ]
 
 
   useEffect(() => {
@@ -43,15 +66,16 @@ function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showS
         {dropdown ? <IconButton> <MdMenu size={25} onClick={() => setDropdown(false)} /></IconButton> : <IconButton> <BiX size={25} onClick={() => setDropdown(true)} /></IconButton>}
         {(dropdown === false) && <div className='absolute text-start rounded-xl text-[0.8rem] bg-white shadow-xl shadow-[#00000048] p-2 top-[50px] w-[40vw] left-5 '>
           <ol>
-            <li className='flex flex-row justify-start items-center gap-2 p-2 cursor-pointer' onClick={() => setDropdown(true)}><CgProfile />Edit profile</li>
-            <li className='flex flex-row justify-start items-center gap-2 p-2 cursor-pointer' onClick={() => setDropdown(true)}><GrUserAdmin />View as Admin</li>
+            {links.map((items, key) => (
+              <Link to={items.path} key={key} className='flex flex-row justify-start items-center gap-2 p-2 cursor-pointer' onClick={() => setDropdown(true)}>{items.icon}{items.title}</Link>
+            ))}
+            {userIsAdmin &&
+              <Link to={"/dashboard/admin"} className='flex flex-row justify-start items-center gap-2 p-2 cursor-pointer' onClick={() => setDropdown(true)}> <GrUserAdmin /> Admin</Link>
+            }
             <li className='flex flex-row justify-start items-center gap-2 p-2 cursor-pointer' onClick={handleLogout}><BiLogOutCircle />Logout</li>
           </ol>
         </div>}
       </div>}
-
-
-
 
       <div className=' font-medium md:w-[15%]  h-full flex flex-row justify-center items-center'>
         <img src={Logo} alt="Logo" className=" w-[35px] h-[35px] md:w-[40px]" />
@@ -64,7 +88,6 @@ function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showS
           <div className=' flex-1 flex justify-center items-center px-5'>
             <div className='relative hidden md:block  md:w-[40%] w-full justify-start items-center'>
               <IconButton sx={{
-
                 position: "absolute"
               }}>
                 <MdSearch size={20} />
@@ -77,8 +100,14 @@ function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showS
       {
         showDropDown && <div className='hidden md:flex flex-row justify-between items-center'>
           <ol className='flex flex-row gap-20 justify-between items-center'>
-            <li className='flex flex-row justify-start items-center gap-2 p-2 cursor-pointer' onClick={() => setDropdown(true)}><CgProfile />Edit profile</li>
-            <li className='flex flex-row justify-start items-center gap-2 p-2 cursor-pointer' onClick={() => setDropdown(true)}><GrUserAdmin />View as Admin</li>
+            {
+              links.map((item, key) => (
+                <Link to={item.path} key={key} className='flex flex-row justify-start items-center gap-2 p-2 cursor-pointer'>{item.icon}{item.title}</Link>
+              ))
+            }
+            {userIsAdmin &&
+              <Link to={"/dashboard/admin"} className='flex flex-row justify-start items-center gap-2 p-2 cursor-pointer' onClick={() => setDropdown(true)}> <GrUserAdmin /> Admin</Link>
+            }
             <li className='flex flex-row justify-start items-center gap-2 p-2 cursor-pointer' onClick={handleLogout}><BiLogOutCircle />Logout</li>
           </ol>
         </div>
@@ -98,27 +127,31 @@ function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showS
         </div>
 
         {showCartIcon && (
+          <>
+            {userIsAdmin && location.pathname === "/dashboard/admin" ||
+              location.pathname === "/dashboard/profile" ? (<div />) : (
+              <IconButton onClick={() => setOpenCart(!openCart)} style={{
 
-          <IconButton onClick={() => setOpenCart(!openCart)} style={{
+                position: "relative",
+                background: "white",
+                boxShadow: "2px 2px 8px lightgray"
 
-            position: "relative",
-            background: "white",
-            boxShadow: "2px 2px 8px lightgray"
+              }}>
+                {items.length === 0 ? (<div />) : (
+                  <div className='absolute  top-0 right-0 text-white bg-primary rounded-full text-[0.6rem] w-3 h-3'>
+                    {items.length}
+                  </div>
+                )}
+                {!openCart ? (
+                  <MdOutlineShoppingCart className={"w-[25px] h-[25px] text-gray-800 md:w-5 md:h-5"} />
 
-          }}>
-            {items.length === 0 ? (<div />) : (
-              <div className='absolute  top-0 right-0 text-white bg-primary rounded-full text-[0.6rem] w-3 h-3'>
-                {items.length}
-              </div>
+                ) : (
+                  <BiX ShoppingCart className={"w-[25px] h-[25px] text-gray-800 md:w-5 md:h-5"} />
+                )}
+
+              </IconButton>
             )}
-            {!openCart ? (
-              <MdOutlineShoppingCart className={"w-[25px] h-[25px] text-gray-800 md:w-5 md:h-5"} />
-
-            ) : (
-              <BiX ShoppingCart className={"w-[25px] h-[25px] text-gray-800 md:w-5 md:h-5"} />
-            )}
-
-          </IconButton>
+          </>
         )}
 
       </div>
