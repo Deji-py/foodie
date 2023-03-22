@@ -5,14 +5,14 @@ import InputField from './Authentication/components/InputField'
 
 function Admin() {
     return (
-        <div className='bg-red-200 font-medium gap-2 w-screen  md:overflow-hidden h-fit md:h-[90vh] flex flex-col md:flex-row justify-start items-start'>
-            <div className=' w-full  md:w-[30%] overflow-y-scroll bg-orange-200 h-full'>
-                <h1>
+        <div className='bg-red-200 p-2 font-medium gap-2 w-screen  md:overflow-hidden h-fit md:h-[90vh] flex flex-col md:flex-row justify-start items-start'>
+            <div className=' w-full flex flex-col justify-start  items-start gap-5 md:w-[30%] overflow-y-scroll bg-orange-200 h-full'>
+                <h1 className='font-mediun font-bold text-[1.2em] md:text-[1.5em] '>
                     Available Categories
                 </h1>
-                <div>
+                <div className='w-full'>
                     <input type="text" placeholder='search Categories' />
-                    <div>
+                    <div className='flex flex-row justify-between w-full items-center'>
                         <div>
                             Total Categories: 3
                         </div>
@@ -20,6 +20,12 @@ function Admin() {
                             <button>Add New</button>
                         </div>
                     </div>
+                </div>
+                <div>
+                    <div>Item</div>
+                    <div>Item</div>
+                    <div>Item</div>
+                    <div>Item</div>
                 </div>
             </div>
             <div className='w-full md:w-[30%] overflow-y-scroll bg-blue-300 h-full'>

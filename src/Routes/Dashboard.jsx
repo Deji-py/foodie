@@ -33,7 +33,7 @@ function Dashboard() {
                     onMouseOver={() => setOpenSideNav(false)}
                 >
                     <Header showMenuDrop={true} loggedin={true} showCart={true} setOpenCart={setOpenCart} openCart={openCart} />
-                    <div className=" flex px-0 md:px-20  flex-row h-fit w-full">
+                    <div className=" flex px-0 md:px-10  flex-row h-fit w-full">
                         <Outlet />
                         <Cart openCart={openCart} setOpenCart={setOpenCart} />
                     </div>

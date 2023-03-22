@@ -76,7 +76,7 @@ function CategoryList() {
 
             ) : (
 
-                <div className='flex flex-row px- mt-10 flex-wrap justify-center md:justify-start items-center pb-5 gap-5 w-full'>
+                <div className='flex flex-row  mt-10 flex-wrap justify-center md:justify-start items-center pb-5 gap-5 w-full'>
                     {category.map((item, key) => (
                         <ItemCard setModalOpen={setModalOpen} setModalDetail={setModalDetail} removeOneFromCart={() => removeOneFromCart(item)} addOneToCart={() => addOneToCart(item)} item={item} key={key} />
                     ))}
