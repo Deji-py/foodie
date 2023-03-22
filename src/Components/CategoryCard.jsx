@@ -32,7 +32,7 @@ function CategoryCard({ title, image, route }) {
          shadow-none hover:shadow-xl border-[0.5px] border-primary mt-5 flex flex-col w-[15em] h-[8em] rounded-br-3xl  
          rounded-tl-3xl  rounded-xl  relative justify-center items-center'
             style={{
-                background: active ? "#8000a7" : "white" && hover ? "white" : "white",
+                background: active ? "linear-gradient(60deg,#8000a7,#ef233c)" : "white" && hover ? "white" : "white",
                 color: active ? "white" : "black"
             }}
         >

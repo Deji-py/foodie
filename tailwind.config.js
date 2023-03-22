@@ -21,7 +21,7 @@ module.exports = {
       },
       colors: {
         primary: "#8000a7",
-        secondary: "#15cdca",
+        secondary: "#ef233c",
       },
       fontFamily: {
         medium: "'Poppins', sans-serif",

@@ -20,7 +20,7 @@ function HeroSection() {
                             Order Now
                         </button>
                     </Link>
-                    <Link to={"/about"} className='p-3 px-5 bg-teal-100 shadow-xl  text-teal-800 rounded-xl'>
+                    <Link to={"/about"} className='p-3 px-5 bg-[#fbc6cc] shadow-xl  text-red-500 rounded-xl'>
                         About us
                     </Link>
                 </div>

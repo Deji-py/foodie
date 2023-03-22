@@ -110,7 +110,7 @@ function Signup() {
                     }} onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} type={"password"} />
                     {passMismatch ? <p className='float-right  text-red-500 text-[0.8rem]'>Password Mismatch</p> : <div />}
                 </form>
-                <button onClick={handleSubmit} className='relative bg-primary overflow-hidden flex flex-row justify-center items-center shadow-xl rounded-xl h-[50px] mt-5 mb-2 text-white p-3 md:w-[60%] w-[90%] '>
+                <button onClick={handleSubmit} className='relative bg-gradient-to-r from-primary to-secondary overflow-hidden flex flex-row justify-center items-center shadow-xl rounded-xl h-[50px] mt-5 mb-2 text-white p-3 md:w-[60%] w-[90%] '>
                     <p>
                         Signup
                     </p>

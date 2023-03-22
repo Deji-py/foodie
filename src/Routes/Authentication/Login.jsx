@@ -89,7 +89,7 @@ function Login() {
                         Forgot Password?
                     </Link>
                 </div>
-                <button onClick={handleLogin} className='relative bg-primary overflow-hidden flex flex-row justify-center items-center shadow-xl rounded-xl h-[50px] mt-5 mb-2 text-white p-3 md:w-[60%] w-[90%] '>
+                <button onClick={handleLogin} className='relative bg-gradient-to-r from-primary to-secondary overflow-hidden flex flex-row justify-center items-center shadow-xl rounded-xl h-[50px] mt-5 mb-2 text-white p-3 md:w-[60%] w-[90%] '>
                     Login
                     <LineWave
                         height="100"
@@ -113,7 +113,7 @@ function Login() {
                 </button>
                 <p className='mt-5'>
                     Already have an account
-                    <Link to="/signup" className='text-primary ml-2 font-bold ' >
+                    <Link to="/signup" className='  text-primary ml-2 font-bold ' >
                         Signup
 
                     </Link>
@@ -129,7 +129,7 @@ function Login() {
                     <img src={Logo} alt="Logo" className=" w-[100px] h-[100px]" />
                     <p className='text-[4.5rem] font-bold text-white ml-5  text-transparent'>Foodie</p>
                 </motion.div>
-                <img src={"https://img.freepik.com/free-photo/top-view-fried-potatoes-tasty-french-fries-with-greens-oil-dark-desk_140725-115270.jpg?size=626&ext=jpg&uid=R31019825&ga=GA1.2.1152281857.1676819121&semt=ais"} className={"w-full h-full object-cover opacity-30"} />
+                <img src={"https://images.pexels.com/photos/1624487/pexels-photo-1624487.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"} className={"w-full h-full object-cover opacity-50"} />
             </div>
 
         </div>

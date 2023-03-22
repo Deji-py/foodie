@@ -40,7 +40,7 @@ function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showS
     id: 0,
     title: "Home",
     icon: <BiHome />,
-    path: "/dashboard/categories/foods"
+    path: "/dashboard/categories/Foods"
   },
   {
     id: 1,

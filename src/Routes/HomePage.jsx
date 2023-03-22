@@ -27,7 +27,7 @@ const Dash = ({ name, avatar }) => {
             <div className=' bg-gradient-to-r shadow-gray-300 from-secondary gap-5 to-primary flex flex-row items-center justify-start shadow-lg  text-white rounded-2xl w-full h-full'>
                 <div className='flex-1 border-r-2 flex flex-col justify-center items-center'>
 
-                    <Avatar src={avatar} className='border-2 mb-2  border-teal-300' style={{
+                    <Avatar src={avatar} className='border-2 mb-2  border-secondary' style={{
                         width: 50,
                         height: 50,
 
@@ -43,7 +43,7 @@ const Dash = ({ name, avatar }) => {
                     </p>
                 </div>
                 <div className='w-[30%] '>
-                    <p className='bg-white text-teal-600 flex p-2 w-fit h-fit rounded-full justify-center items-center'>{date.getDate()}</p>
+                    <p className='bg-white text-red-600 flex p-2 w-fit h-fit rounded-full justify-center items-center'>{date.getDate()}</p>
                     <h1 className='text-[2rem]'>
                         {month[date.getMonth()]}
                     </h1>
