@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { BiX } from 'react-icons/bi'
 import Modal from '../Utilty/Modal'
-import { collection, getDocs } from "firebase/firestore"
+import { collection, doc, getDoc, getDocs } from "firebase/firestore"
 import InputField from './Authentication/components/InputField'
 import { db } from '../firebase_config'
-import { Divider } from '@mui/material'
+import { Divider, IconButton } from '@mui/material'
+import { FaTrash } from "react-icons/fa"
 
 
 
 
-const CategoryItem = ({ image, title }) => {
+const CategoryItem = ({ image, title, style, onClick }) => {
     return (
-        <button className='bg-white my-2 shadow-md shadow-gray-300 flex flex-row justify-start items-center gap-5 w-full h-fit p-5'>
+        <button onClick={onClick} style={style} className='bg-white my-2 shadow-md shadow-gray-300 flex flex-row justify-start items-center gap-5 w-full h-fit p-5'>
             <div className='flex-1 flex flex-row justify-start items-center gap-5'>
                 <img src={image} at="img" className='flex-none w-[40px] h-[40px]' />
                 <h1>{title}</h1>
@@ -26,7 +27,7 @@ const CategoryItem = ({ image, title }) => {
 
 
 
-const CategoriesSection = () => {
+const CategoriesSection = ({ setCategories, currentItem, setCurrentItem }) => {
 
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
@@ -40,6 +41,7 @@ const CategoriesSection = () => {
                 return item.data()
             })
             setData(data)
+            setCategories(data)
             setError("")
             setLoading(false)
         }).catch(e => {
@@ -59,8 +61,8 @@ const CategoriesSection = () => {
             <h1 className='font-mediun font-bold ml-5 text-[1.2em] md:text-[1.2em] '>
                 Categories
             </h1>
-            <div className='w-full py-5 px-5'>
-                <input type="text" placeholder='search Categories' className='w-full p-2 px-10 rounded-xl shadow-lg' />
+            <div className='w-full  py-5 px-5 '>
+                <input type="text" placeholder='search Categories' className='w-full hidden md:block p-2 px-10 rounded-xl shadow-lg' />
                 <div className='flex mt-5  flex-row justify-between w-full items-center'>
                     <div className='text-[0.8rem]'>
                         Total Categories: 3
@@ -75,7 +77,12 @@ const CategoriesSection = () => {
                     <>
                         {data.map((item, key) => (
                             <>
-                                <CategoryItem key={key} image={item.image} title={item.category} />
+                                <CategoryItem onClick={() => setCurrentItem(key)} style={{
+                                    borderRadius: "20px",
+                                    background: key === currentItem ? "#e2d6ff" : "white",
+                                    border: key === currentItem ? "1px solid purple" : "1px solid transparent",
+                                    transition: "ease-in-out 0.5s"
+                                }} key={key} image={item.image} title={item.category} />
                             </>
                         ))}
                     </>
@@ -87,9 +94,14 @@ const CategoriesSection = () => {
                 {/*---------------*/}
             </div>
             {loading ? <div className='w-full mt-3 h-20 animate  bg-gray-300' /> : (
-                <div className='mb-10 md:hidden w-full flex gap-3 flex-row justify-start hideScrollbar items-center overflow-x-scroll'>
+                <div className='mb-10 md:hidden px-5 w-full flex gap-3 flex-row justify-start hideScrollbar items-center overflow-x-scroll'>
                     {data.map((item, key) => (
-                        <div key={key} className=' border-b-2 border-black  h-full p-2 '>{item.category}</div>
+                        <div key={key} onClick={() => setCurrentItem(key)} className=' border-b-2 border-black  h-full p-2 ' style={{
+                            borderRadius: "20px",
+                            background: key === currentItem ? "#e2d6ff" : "white",
+                            border: key === currentItem ? "1px solid purple" : "1px solid transparent",
+                            transition: "ease-in-out 0.5s"
+                        }}>{item.category}</div>
                     ))}
                 </div>
             )}
@@ -99,28 +111,95 @@ const CategoriesSection = () => {
     )
 }
 
+const CategoryProductsSection = ({ category }) => {
+
+
+    const Item = ({ name, image }) => {
+        return (
+            <div className='w-full flex flex-row p-5 shadow-xl justify-between  items-center gap-5 bg-white my-5'>
+                <div className='flex flex-row justify-start items-center gap-5'>
+                    <div className='w-10 h-10 '>
+                        <img src={image} className="w-full h-full object-cover" />
+                    </div>
+                    <div >
+                        <h1 >{name}</h1>
+                    </div>
+                </div>
+                <div>
+                    <IconButton >
+                        {<FaTrash size={20} />}
+                    </IconButton >
+                </div>
+            </div>
+        )
+    }
+
+    const [data, setData] = useState(null)
+    const renderItems = () => {
+        console.log("loading")
+        const docRef = doc(db, "categories/" + category)
+        getDoc(docRef).then((result) => {
+            setData(result.data())
+        })
+    }
+
+    useEffect(() => {
+        renderItems()
+    }, [category])
+
+    return (
+        <div className='w-full md:w-[40%] overflow-y-scroll h-full md:px-5 px-2'>
+            <div>
+                <h1 className='font-mediun text-gray-400 font-bold md:ml-5 text-[1.2em] md:text-[1.2em] '>
+                    Products
+                </h1>
+                <div className='w-full py-5 md:px-5'>
+                    <input type="text" placeholder='search products' className='w-full p-2 px-10 rounded-xl shadow-lg' />
+                    <div className='flex mt-5  flex-row justify-between w-full items-center'>
+                        <div className='text-[0.8rem]'>
+                            Total products: 4
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+
+                {data?.list.map((item, key) => (
+                    <Item name={item.name} key={key} image={item.image} />
+                ))}
+            </div>
+        </div>
+    )
+}
+
 
 
 function Admin() {
+
+    const [currentItem, setCurrentItem] = useState(0)
+    const [categories, setCategories] = useState([])
+    const [selectedCategory, setSelectedCategory] = useState("food")
+
+
+
+    useEffect(() => {
+        setSelectedCategory(categories[currentItem]?.category.toLowerCase())
+    }, [categories, currentItem])
+
+
+
+
+
+
 
 
     return (
 
         <div className=' p-2 pt-10 font-medium gap-2 w-screen  md:overflow-hidden h-fit md:h-[90vh] flex flex-col md:flex-row justify-start items-start'>
-            <CategoriesSection />
-            <div className='w-full md:w-[30%] overflow-y-scroll h-full'>
-                <div>
-                    <h1>Items "1.e Categories"</h1>
-                    <div>
-                        <input type="text" placeholder='search item' />
-                    </div>
-                </div>
-                <div>
-                    <p>Items here...</p>
-                </div>
-            </div>
-            <div className='flex-auto customScroll hidden pt-[200px] overflow-y-scroll md:flex flex-col justify-center items-center h-full md:h-full '>
-                <div className='md:w-[90%] rounded-2xl w-full bg-gray-50 h-fit p-5 shadow-xl'>
+            <CategoriesSection setCategories={setCategories} currentItem={currentItem} setCurrentItem={setCurrentItem} />
+            <CategoryProductsSection category={selectedCategory} />
+            <div className='flex-auto customScroll hidden pt-[200px] px-5 overflow-y-scroll md:flex flex-col justify-center items-center h-full md:h-full '>
+                <div className='md:w-[100%] mt-20 mb-10 rounded-2xl w-full bg-gray-50 h-fit p-5 shadow-xl'>
                     <h1>Item details</h1>
                     <div>
                         <form>
