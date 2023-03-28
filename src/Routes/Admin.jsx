@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { BiX } from 'react-icons/bi'
 import Modal from '../Utilty/Modal'
-import { collection, doc, getDoc, getDocs } from "firebase/firestore"
+import { arrayUnion, collection, doc, FieldValue, getDoc, getDocs, setDoc, updateDoc } from "firebase/firestore"
 import InputField from './Authentication/components/InputField'
-import { db } from '../firebase_config'
-import { Divider, IconButton } from '@mui/material'
+import { db, storage } from '../firebase_config'
+import { Divider, IconButton, selectClasses } from '@mui/material'
+import { v4 } from "uuid"
 import { FaTrash } from "react-icons/fa"
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 
 
 
@@ -68,7 +70,7 @@ const CategoriesSection = ({ setCategories, currentItem, setCurrentItem }) => {
                         Total Categories: 3
                     </div>
                     <div>
-                        <button className='bg-primary text-[0.8rem] shadow-xl text-white p-3 px-5 rounded-2xl'>Add New</button>
+                        <button className='bg-black text-[0.8rem] shadow-xl text-white p-3 px-5 rounded-2xl'>Add New</button>
                     </div>
                 </div>
             </div>
@@ -111,12 +113,12 @@ const CategoriesSection = ({ setCategories, currentItem, setCurrentItem }) => {
     )
 }
 
-const CategoryProductsSection = ({ category }) => {
+const CategoryProductsSection = ({ category, selectedItemIndex, setSelectedItemIndex }) => {
 
 
-    const Item = ({ name, image }) => {
+    const Item = ({ name, image, onClick, style }) => {
         return (
-            <div className='w-full flex flex-row p-5 shadow-xl justify-between  items-center gap-5 bg-white my-5'>
+            <div onClick={onClick} style={style} className='w-full flex flex-row p-5 shadow-xl justify-between  items-center gap-5 bg-white my-5' >
                 <div className='flex flex-row justify-start items-center gap-5'>
                     <div className='w-10 h-10 '>
                         <img src={image} className="w-full h-full object-cover" />
@@ -130,7 +132,7 @@ const CategoryProductsSection = ({ category }) => {
                         {<FaTrash size={20} />}
                     </IconButton >
                 </div>
-            </div>
+            </div >
         )
     }
 
@@ -157,15 +159,23 @@ const CategoryProductsSection = ({ category }) => {
                     <input type="text" placeholder='search products' className='w-full p-2 px-10 rounded-xl shadow-lg' />
                     <div className='flex mt-5  flex-row justify-between w-full items-center'>
                         <div className='text-[0.8rem]'>
-                            Total products: 4
+                            Total products: {data?.list?.length}
+                        </div>
+                        <div>
+                            <button className='bg-primary text-[0.8rem] shadow-xl text-white p-3 px-5 rounded-2xl'>Add New</button>
                         </div>
                     </div>
+
                 </div>
             </div>
             <div>
 
                 {data?.list.map((item, key) => (
-                    <Item name={item.name} key={key} image={item.image} />
+                    <Item onClick={() => setSelectedItemIndex(key)} style={{
+                        background: selectedItemIndex === key ? "lightgray" : "white",
+                        border: selectedItemIndex === key ? "gray 2px solid" : "white 2px solid",
+                        cursor: "pointer"
+                    }} name={item.name} key={key} image={item.image} />
                 ))}
             </div>
         </div>
@@ -177,18 +187,89 @@ const CategoryProductsSection = ({ category }) => {
 function Admin() {
 
     const [currentItem, setCurrentItem] = useState(0)
+    const [selectedItemIndex, setSelectedItemIndex] = useState(0)
     const [categories, setCategories] = useState([])
+    const [data, setData] = useState({})
     const [selectedCategory, setSelectedCategory] = useState("food")
+    const [title, setTitle] = useState("")
+    const [rating, setRating] = useState("")
+    const [price, setPrice] = useState(0)
+    const [selectedFile, setSelectedFile] = useState("")
+    const [loading, setLoading] = useState(false)
+    const [description, setDescription] = useState("")
+    const [image, setImage] = useState("")
+    const [preview, setPreview] = useState("")
+    const [list, setList] = useState([])
 
+
+    const updateForm = () => {
+        setTitle(data?.name)
+        setRating(data?.rating)
+        setPrice(data?.price)
+        setDescription(data?.description)
+        setImage(data?.image)
+    }
 
 
     useEffect(() => {
         setSelectedCategory(categories[currentItem]?.category.toLowerCase())
-    }, [categories, currentItem])
+        setData(categories[currentItem]?.list[selectedItemIndex])
+        setList(categories[currentItem]?.list)
+        updateForm()
+    }, [categories, currentItem, selectedItemIndex])
+
+
+    useEffect(() => {
+        updateForm()
+    }, [data, selectedItemIndex])
+
+
+    useEffect(() => {
+        setPreview(data?.image)
+    }, [data])
 
 
 
 
+
+    const updateData = () => {
+        const imageRef = ref(storage, "images/" + selectedFile.name)
+        const docRef = doc(db, "categories", selectedCategory)
+
+
+        console.log("loading...")
+        uploadBytes(imageRef, selectedFile).then(() => {
+            getDownloadURL(imageRef).then((url) => {
+
+                const documentData = {
+                    id: data?.id,
+                    name: title,
+                    rating: rating,
+                    price: price,
+                    description: description,
+                    image: url !== "" ? url : image,
+                    quantity: 1
+
+                }
+
+                console.log(documentData)
+                list[selectedItemIndex] = documentData
+                console.log(list)
+                updateDoc(docRef, { list: list }).then((result) => {
+                    console.log("updated!")
+                }).catch(e => console.log(e))
+            }).catch(e => {
+                console.log("error")
+            })
+        }).catch(e => console.log(e))
+
+    }
+
+
+    const handleUpdateImageURL = (e) => {
+        setSelectedFile(e.target.files[0])
+        setPreview(URL.createObjectURL(e.target.files[0]))
+    }
 
 
 
@@ -197,23 +278,28 @@ function Admin() {
 
         <div className=' p-2 pt-10 font-medium gap-2 w-screen  md:overflow-hidden h-fit md:h-[90vh] flex flex-col md:flex-row justify-start items-start'>
             <CategoriesSection setCategories={setCategories} currentItem={currentItem} setCurrentItem={setCurrentItem} />
-            <CategoryProductsSection category={selectedCategory} />
+            <CategoryProductsSection category={selectedCategory} selectedItemIndex={selectedItemIndex} setSelectedItemIndex={setSelectedItemIndex} />
             <div className='flex-auto customScroll hidden pt-[200px] px-5 overflow-y-scroll md:flex flex-col justify-center items-center h-full md:h-full '>
                 <div className='md:w-[100%] mt-20 mb-10 rounded-2xl w-full bg-gray-50 h-fit p-5 shadow-xl'>
                     <h1>Item details</h1>
                     <div>
-                        <form>
-                            <InputField title={"Title"} placeholder="enter title" type={"text"} />
-                            <InputField title={"Rating"} placeholder="rating" />
-                            <InputField title={"Image"} placeholder="Image" type={"file"} />
+                        <form onSubmit={(e) => e.preventDefault()}>
+                            <InputField title={"Title"} onChange={(e) => setTitle(e.target.value)} value={title} placeholder="enter title" type={"text"} />
+                            <InputField title={"Rating"} onChange={(e) => setRating(e.target.value)} value={rating} placeholder="rating" />
+                            <InputField title={"Price"} onChange={(e) => setPrice(e.target.value)} value={price} placeholder="Price here" type={"text"} />
+                            <InputField title={"Image"} style={{
+                                all: "unset"
+                            }} value={""} onChange={handleUpdateImageURL} placeholder="Image" type={"file"} />
+
+                            <img src={preview} className={"w-full bg-gray-400 animate h-[100px] object-cover"} />
+
                             <div className='my-5'>
                                 <h1 className='pb-2'>Description</h1>
-                                <textarea required={true} placeholder={"enter description"}
+                                <textarea value={description} onChange={(e) => setDescription(e.target.value)} required={true} placeholder={"enter description"}
                                     className={"w-full border-[1px]  py-3 p-5 shadow-xl rounded-xl h-[300px] "} />
                             </div>
-                            <div>
-                                <button>Update</button>
-                                <button>Delete</button>
+                            <div className='my-5'>
+                                <button onClick={updateData} className='bg-black p-2 px-5 text-white'>Update</button>
                             </div>
                         </form>
                     </div>
@@ -225,19 +311,18 @@ function Admin() {
                             <BiX size={30} className="self-start" />
                             <h1>Item details</h1>
                             <div>
-                                <form>
-
-                                    <InputField title={"Title"} placeholder="enter title" type={"text"} />
-                                    <InputField title={"Rating"} placeholder="rating" />
+                                <form onSubmit={(e) => e.preventDefault()}>
+                                    <InputField title={"Title"} value={title} placeholder="enter title" type={"text"} />
+                                    <InputField title={"Rating"} value={rating} placeholder="rating" />
+                                    <InputField title={"Price"} value={price} placeholder="Price here" type={"text"} />
                                     <InputField title={"Image"} placeholder="Image" type={"file"} />
                                     <div className='my-5'>
                                         <h1 className='pb-2'>Description</h1>
-                                        <textarea required={true} placeholder={"enter description"}
+                                        <textarea value={description} required={true} placeholder={"enter description"}
                                             className={"w-full border-[1px] border-purple-400 py-3 p-5 shadow-xl rounded-xl "} />
                                     </div>
-                                    <div>
-                                        <button>Update</button>
-                                        <button>Delete</button>
+                                    <div className='my-5'>
+                                        <button className='bg-black p-2 px-5 text-white'>Update</button>
                                     </div>
                                 </form>
                             </div>

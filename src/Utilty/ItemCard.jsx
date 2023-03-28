@@ -73,19 +73,19 @@ function ItemCard({ setModalDetail, setModalOpen, item, addOneToCart, removeOneF
 
             </div>
 
-            <div className=' flex flex-col justify-start items-center flex-auto ' >
+            <div className=' flex flex-col w-full justify-start items-center flex-auto ' >
 
                 <div onClick={() => {
                     setModalOpen(true)
                     setModalDetail(item)
-                }} className='px-5  flex-1 '>
+                }} className='px-5  flex-1 w-full  '>
 
-                    <div >
-                        <p className='text-[1.2rem] my-3 font-bold '>{item.name}</p>
-                        <div className='text-gray-500 font-medium '>
-                            {item.description.length > 100 ? (<>{item.description.slice(0, 100) + "..."}</>) : (<>{item.description}</>)}
-                        </div>
+
+                    <p className='text-[1.2rem] my-3 font-bold '>{item.name}</p>
+                    <div className='text-gray-500 font-medium '>
+                        {item.description.length > 100 ? (<>{item.description.slice(0, 100) + "..."}</>) : (<>{item.description}</>)}
                     </div>
+
 
                 </div>
 
