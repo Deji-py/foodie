@@ -4,10 +4,11 @@ import Modal from '../Utilty/Modal'
 import { arrayUnion, collection, doc, FieldValue, getDoc, getDocs, setDoc, updateDoc } from "firebase/firestore"
 import InputField from './Authentication/components/InputField'
 import { db, storage } from '../firebase_config'
-import { Divider, IconButton, selectClasses } from '@mui/material'
+import { CircularProgress, Divider, IconButton, selectClasses, Switch } from '@mui/material'
 import { v4 } from "uuid"
 import { FaTrash } from "react-icons/fa"
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
+import { MdImage } from 'react-icons/md'
 
 
 
@@ -58,24 +59,24 @@ const CategoriesSection = ({ setCategories, currentItem, setCurrentItem }) => {
 
 
     return (
-        <div className=' w-full flex flex-col justify-start  items-start gap-5 md:w-[30%] overflow-y-scroll  h-full' >
+        <div className=' w-full flex flex-col px-2 md:justify-start justify-center    items-start gap-5 md:w-[30%] overflow-y-scroll hideScrollbar  h-full' >
 
-            <h1 className='font-mediun font-bold ml-5 text-[1.2em] md:text-[1.2em] '>
+            <h1 className='font-mediun font-bold ml-5  text-[1.2em] '>
                 Categories
             </h1>
-            <div className='w-full  py-5 px-5 '>
+            <div className='w-full py-5 md:px-5 '>
                 <input type="text" placeholder='search Categories' className='w-full hidden md:block p-2 px-10 rounded-xl shadow-lg' />
-                <div className='flex mt-5  flex-row justify-between w-full items-center'>
+                <div className='flex mt-5  flex-row justify-between items-center'>
                     <div className='text-[0.8rem]'>
                         Total Categories: 3
                     </div>
                     <div>
-                        <button className='bg-black text-[0.8rem] shadow-xl text-white p-3 px-5 rounded-2xl'>Add New</button>
+                        <button className='bg-black text-[0.8rem] shadow-xl text-white p-3 px-5 rounded-2xl'>Add Category</button>
                     </div>
                 </div>
             </div>
             <div className='w-full hidden md:block '>
-                {loading ? <div className='w-full h-20 animate  bg-gray-300' /> : (
+                {loading ? <div className='w-full h-5 animate  bg-gray-300' /> : (
                     <>
                         {data.map((item, key) => (
                             <>
@@ -113,7 +114,7 @@ const CategoriesSection = ({ setCategories, currentItem, setCurrentItem }) => {
     )
 }
 
-const CategoryProductsSection = ({ category, selectedItemIndex, setSelectedItemIndex }) => {
+const CategoryProductsSection = ({ category, selectedItemIndex, setSelectedItemIndex, setOpenItemAddForm }) => {
 
 
     const Item = ({ name, image, onClick, style }) => {
@@ -150,7 +151,7 @@ const CategoryProductsSection = ({ category, selectedItemIndex, setSelectedItemI
     }, [category])
 
     return (
-        <div className='w-full md:w-[40%] overflow-y-scroll h-full md:px-5 px-2'>
+        <div className='w-full md:w-[40%] overflow-y-scroll hideScrollbar h-full md:px-5 px-2'>
             <div>
                 <h1 className='font-mediun text-gray-400 font-bold md:ml-5 text-[1.2em] md:text-[1.2em] '>
                     Products
@@ -162,7 +163,7 @@ const CategoryProductsSection = ({ category, selectedItemIndex, setSelectedItemI
                             Total products: {data?.list?.length}
                         </div>
                         <div>
-                            <button className='bg-primary text-[0.8rem] shadow-xl text-white p-3 px-5 rounded-2xl'>Add New</button>
+                            <button onClick={() => setOpenItemAddForm(true)} className='bg-primary text-[0.8rem] shadow-xl text-white p-3 px-5 rounded-2xl'>Add New</button>
                         </div>
                     </div>
 
@@ -195,12 +196,27 @@ function Admin() {
     const [rating, setRating] = useState("")
     const [price, setPrice] = useState(0)
     const [selectedFile, setSelectedFile] = useState("")
-    const [loading, setLoading] = useState(false)
+    const [message, setMessage] = useState("")
     const [description, setDescription] = useState("")
     const [image, setImage] = useState("")
     const [preview, setPreview] = useState("")
     const [list, setList] = useState([])
+    const [imageLink, setImageLink] = useState("")
+    const [useLink, setUseLink] = useState(false)
+    const [openItemAddForm, setOpenItemAddForm] = useState(false)
+    const [loadingModalOpen, setLoadingModalOpen] = useState(false)
 
+
+
+    //new form
+
+    const [newtitle, setNewTitle] = useState("")
+    const [newrating, setNewRating] = useState("")
+    const [newprice, setNewPrice] = useState(0)
+    // const [selectedFile, setSelectedFile] = useState("")
+    // const [message, setMessage] = useState("")
+    // const [description, setDescription] = useState("")
+    // const [image, setImage] = useState("")
 
     const updateForm = () => {
         setTitle(data?.name)
@@ -208,6 +224,7 @@ function Admin() {
         setPrice(data?.price)
         setDescription(data?.description)
         setImage(data?.image)
+        setImageLink(image)
     }
 
 
@@ -221,7 +238,7 @@ function Admin() {
 
     useEffect(() => {
         updateForm()
-    }, [data, selectedItemIndex])
+    }, [data, selectedItemIndex, data])
 
 
     useEffect(() => {
@@ -233,35 +250,98 @@ function Admin() {
 
 
     const updateData = () => {
+        setLoadingModalOpen(true)
+        setMessage("please wait")
         const imageRef = ref(storage, "images/" + selectedFile.name)
         const docRef = doc(db, "categories", selectedCategory)
-
-
-        console.log("loading...")
-        uploadBytes(imageRef, selectedFile).then(() => {
-            getDownloadURL(imageRef).then((url) => {
-
-                const documentData = {
-                    id: data?.id,
-                    name: title,
-                    rating: rating,
-                    price: price,
-                    description: description,
-                    image: url !== "" ? url : image,
-                    quantity: 1
-
-                }
-
-                console.log(documentData)
-                list[selectedItemIndex] = documentData
-                console.log(list)
-                updateDoc(docRef, { list: list }).then((result) => {
-                    console.log("updated!")
-                }).catch(e => console.log(e))
+        if (imageLink !== "") {
+            const documentData = {
+                id: data?.id,
+                name: title,
+                rating: rating,
+                price: price,
+                description: description,
+                image: imageLink,
+                quantity: 1
+            }
+            list[selectedItemIndex] = documentData
+            updateDoc(docRef, { list: list }).then((result) => {
+                setMessage("Updated!")
+                setTimeout(() => {
+                    setLoadingModalOpen(false)
+                    window.location.reload(true)
+                }, 1000)
             }).catch(e => {
-                console.log("error")
+                setMessage(e.message)
+                setTimeout(() => {
+
+                    setLoadingModalOpen(false)
+                    window.location.reload(true)
+                }, 1000)
             })
-        }).catch(e => console.log(e))
+        }
+        else if (selectedFile === "") {
+            const documentData = {
+                id: data?.id,
+                name: title,
+                rating: rating,
+                price: price,
+                description: description,
+                image: data?.image,
+                quantity: 1
+            }
+            list[selectedItemIndex] = documentData
+
+            updateDoc(docRef, { list: list }).then((result) => {
+                setMessage("Updated!")
+                setTimeout(() => {
+
+                    setLoadingModalOpen(false)
+                    window.location.reload(true)
+                }, 1000)
+            }).catch(e => {
+                setMessage(e.message)
+                setTimeout(() => {
+
+                    setLoadingModalOpen(false)
+                    window.location.reload(true)
+                }, 1000)
+            })
+        }
+        else {
+
+            uploadBytes(imageRef, selectedFile).then(() => {
+                getDownloadURL(imageRef).then((url) => {
+                    const documentData = {
+                        id: data?.id,
+                        name: title,
+                        rating: rating,
+                        price: price,
+                        description: description,
+                        image: url,
+                        quantity: 1
+                    }
+                    list[selectedItemIndex] = documentData
+
+                    updateDoc(docRef, { list: list }).then((result) => {
+                        setMessage("Updated!")
+                        setTimeout(() => {
+
+                            setLoadingModalOpen(false)
+                            window.location.reload(true)
+                        }, 1000)
+                    }).catch(e => console.log(e))
+                }).catch(e => {
+                    setMessage(e.message)
+                    setTimeout(() => {
+
+                        setLoadingModalOpen(false)
+                        window.location.reload(true)
+                    }, 1000)
+                })
+            }).catch(e => console.log(e))
+
+        }
 
     }
 
@@ -276,21 +356,47 @@ function Admin() {
 
     return (
 
-        <div className=' p-2 pt-10 font-medium gap-2 w-screen  md:overflow-hidden h-fit md:h-[90vh] flex flex-col md:flex-row justify-start items-start'>
+        <div className=' md:p-2 pt:10 md:mt-[80px] font-medium gap-2 w-screen px-2  md:overflow-hidden h-fit md:h-[90vh] flex flex-col md:flex-row justify-start items-start'>
             <CategoriesSection setCategories={setCategories} currentItem={currentItem} setCurrentItem={setCurrentItem} />
-            <CategoryProductsSection category={selectedCategory} selectedItemIndex={selectedItemIndex} setSelectedItemIndex={setSelectedItemIndex} />
-            <div className='flex-auto customScroll hidden pt-[200px] px-5 overflow-y-scroll md:flex flex-col justify-center items-center h-full md:h-full '>
-                <div className='md:w-[100%] mt-20 mb-10 rounded-2xl w-full bg-gray-50 h-fit p-5 shadow-xl'>
-                    <h1>Item details</h1>
+
+            <CategoryProductsSection setOpenItemAddForm={setOpenItemAddForm} category={selectedCategory} selectedItemIndex={selectedItemIndex} setSelectedItemIndex={setSelectedItemIndex} />
+            <div className='md:flex-auto md:customScroll  md:showScrollbar hideScrollbar  md:pt-[200px] w-full md:w-fit md:px-5 overflow-y-scroll md:flex flex-col justify-center items-center h-full md:h-full '>
+                <div className='md:w-[100%] mt-10 md:mt-20 md:pt-[300px] mb-10 rounded-2xl w-full bg-gray-50 h-fit p-5 shadow-xl'>
+                    <h1 className='text-[1.3rem] font-bold'>Item details</h1>
+
                     <div>
                         <form onSubmit={(e) => e.preventDefault()}>
                             <InputField title={"Title"} onChange={(e) => setTitle(e.target.value)} value={title} placeholder="enter title" type={"text"} />
                             <InputField title={"Rating"} onChange={(e) => setRating(e.target.value)} value={rating} placeholder="rating" />
-                            <InputField title={"Price"} onChange={(e) => setPrice(e.target.value)} value={price} placeholder="Price here" type={"text"} />
-                            <InputField title={"Image"} style={{
-                                all: "unset"
-                            }} value={""} onChange={handleUpdateImageURL} placeholder="Image" type={"file"} />
+                            <div className='w-full relative '>
+                                <p className='absolute top-[55%] text-gray-400 ml-2'>NGN</p>
+                                <InputField title={"Price"} onChange={(e) => setPrice(e.target.value)} value={price} style={{ paddingLeft: 50 }} placeholder="Price here" type={"text"} />
+                            </div>
+                            <div className='w-full flex flex-col justify-between'>
+                                <div>
 
+                                    <p>Use link</p>
+                                    <Switch onChange={(e) => setUseLink(e.target.checked)} />
+                                </div>
+
+                                {useLink ? (<InputField title={"image Link"} placeholder={"paste image link here"} type="text" value={imageLink} onChange={(e) => {
+                                    setPreview(e.target.value)
+                                    setImageLink(e.target.value)
+
+                                }} />) : (
+                                    <>
+
+                                        <div className="upload-btn-wrapper " >
+                                            <button className="btn border-purple-400 text-purple-500 flex flex-row justify-center items-center shadow-xl gap-2 border-2 p-3 bg-purple-100 my-5">
+                                                <MdImage size={25} /> Upload image</button>
+                                            <input type="file" onChange={handleUpdateImageURL} name="myfile" />
+                                        </div>
+
+                                    </>
+                                )}
+
+
+                            </div>
                             <img src={preview} className={"w-full bg-gray-400 animate h-[100px] object-cover"} />
 
                             <div className='my-5'>
@@ -305,32 +411,39 @@ function Admin() {
                     </div>
                 </div>
 
-                <div className='md:hidden'>
-                    <Modal>
-                        <div className='md:w-[80%]  h-full flex flex-col justify-center items-center absolute z-50 w-full bg-gray-50 p-5 shadow-xl'>
-                            <BiX size={30} className="self-start" />
-                            <h1>Item details</h1>
-                            <div>
-                                <form onSubmit={(e) => e.preventDefault()}>
-                                    <InputField title={"Title"} value={title} placeholder="enter title" type={"text"} />
-                                    <InputField title={"Rating"} value={rating} placeholder="rating" />
-                                    <InputField title={"Price"} value={price} placeholder="Price here" type={"text"} />
-                                    <InputField title={"Image"} placeholder="Image" type={"file"} />
-                                    <div className='my-5'>
-                                        <h1 className='pb-2'>Description</h1>
-                                        <textarea value={description} required={true} placeholder={"enter description"}
-                                            className={"w-full border-[1px] border-purple-400 py-3 p-5 shadow-xl rounded-xl "} />
-                                    </div>
-                                    <div className='my-5'>
-                                        <button className='bg-black p-2 px-5 text-white'>Update</button>
-                                    </div>
-                                </form>
-                            </div>
+                <Modal setShowModal={setLoadingModalOpen} showmodal={loadingModalOpen} >
+                    <div className='bg-white absolute z-[100] flex flex-col justify-center items-center p-5 rounded-20 shadow-xl'>
+                        {message === "Updated!" ? <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Eo_circle_green_checkmark.svg/512px-Eo_circle_green_checkmark.svg.png?20200417132424' className='w-[50px] h-[50px]' /> : <CircularProgress />}
+
+                        <h2>{message}</h2>
+                    </div>
+                </Modal>
+
+                <Modal setShowModal={setOpenItemAddForm} showmodal={openItemAddForm}>
+                    <div className='md:w-[80%]  h-full flex flex-col justify-center items-center absolute z-50 w-full bg-gray-50 p-5 shadow-xl'>
+                        <BiX size={30} className="self-start" onClick={() => setOpenItemAddForm(false)} />
+                        <h1>Item details</h1>
+                        <div>
+                            <form onSubmit={(e) => e.preventDefault()}>
+                                <InputField title={"Title"} value={title} placeholder="enter title" type={"text"} />
+                                <InputField title={"Rating"} value={rating} placeholder="rating" />
+                                <InputField title={"Price"} value={price} placeholder="Price here" type={"text"} />
+                                <InputField title={"Image"} placeholder="Image" type={"file"} />
+                                <div className='my-5'>
+                                    <h1 className='pb-2'>Description</h1>
+                                    <textarea value={description} required={true} placeholder={"enter description"}
+                                        className={"w-full border-[1px] border-purple-400 py-3 p-5 shadow-xl rounded-xl "} />
+                                </div>
+                                <div className='my-5'>
+                                    <button className='bg-black p-2 px-5 text-white'>Add</button>
+                                </div>
+                            </form>
                         </div>
-                    </Modal>
-                </div>
+                    </div>
+                </Modal>
             </div>
         </div>
+
     )
 }
 

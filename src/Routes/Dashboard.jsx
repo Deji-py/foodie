@@ -25,11 +25,11 @@ function Dashboard() {
         <CartProvider>
 
             <div
-                className=" font-medium w-full overflow-y-hidden flex  flex-row "
+                className=" font-medium w-full hideScrollbar md:showScrollbar overflow-y-hidden flex  flex-row "
 
             >
                 <div
-                    className="flex-1 h-screen overflow-y-scroll bg-gray-100 "
+                    className="flex-1 h-screen overflow-y-scroll hideScrollbar md:scrollScrollbar bg-gray-100 "
                     onMouseOver={() => setOpenSideNav(false)}
                 >
                     <Header showMenuDrop={true} loggedin={true} showCart={true} setOpenCart={setOpenCart} openCart={openCart} />

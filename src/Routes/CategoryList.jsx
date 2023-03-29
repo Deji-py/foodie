@@ -80,12 +80,12 @@ function CategoryList() {
                     {category.map((item, key) => (
                         <ItemCard setModalOpen={setModalOpen} setModalDetail={setModalDetail} removeOneFromCart={() => removeOneFromCart(item)} addOneToCart={() => addOneToCart(item)} item={item} key={key} />
                     ))}
-                    {modalOpen && (
-                        <Modal setShowModal={() => setModalOpen(false)}>
-                            <Details setModalOpen={setModalOpen} product={modalDetail} />
-                        </Modal>
-                    )
-                    }
+
+                    <Modal showmodal={modalOpen} setShowModal={() => setModalOpen(false)}>
+                        <Details setModalOpen={setModalOpen} product={modalDetail} />
+                    </Modal>
+
+
                 </div>
             )}
         </>

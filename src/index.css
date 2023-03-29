@@ -27,10 +27,6 @@
   border: 3px solid var(--primary);
 }
 
-.hideScrollbar::-webkit-scrollbar {
-  display: none;
-}
-
 @tailwind components;
 @tailwind utilities;
 
@@ -67,4 +63,34 @@ code {
   100% {
     background-color: rgb(214, 214, 214);
   }
+}
+
+.imgdrop {
+  -webkit-filter: drop-shadow(5px 5px 5px #222222);
+  filter: drop-shadow(20px 10px 8px #2222222f);
+}
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.btn {
+  border-radius: 8px;
+}
+
+.upload-btn-wrapper input[type="file"] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+.hideScrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.showScrollbar::-webkit-scrollbar {
+  display: block;
 }
