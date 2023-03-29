@@ -213,10 +213,13 @@ function Admin() {
     const [newtitle, setNewTitle] = useState("")
     const [newrating, setNewRating] = useState("")
     const [newprice, setNewPrice] = useState(0)
-    // const [selectedFile, setSelectedFile] = useState("")
-    // const [message, setMessage] = useState("")
-    // const [description, setDescription] = useState("")
-    // const [image, setImage] = useState("")
+    const [newselectedFile, setNewSelectedFile] = useState("")
+    const [newmessage, setNewMessage] = useState("")
+    const [newdescription, setNewDescription] = useState("")
+    const [newimage, setNewImage] = useState("")
+    const [newpreview, setNewPreview] = useState("")
+    const [newimageLink, setNewImageLink] = useState("")
+
 
     const updateForm = () => {
         setTitle(data?.name)
@@ -281,13 +284,14 @@ function Admin() {
             })
         }
         else if (selectedFile === "") {
+
             const documentData = {
                 id: data?.id,
                 name: title,
                 rating: rating,
                 price: price,
                 description: description,
-                image: data?.image,
+                image: preview,
                 quantity: 1
             }
             list[selectedItemIndex] = documentData
@@ -347,11 +351,77 @@ function Admin() {
 
 
     const handleUpdateImageURL = (e) => {
+
         setSelectedFile(e.target.files[0])
         setPreview(URL.createObjectURL(e.target.files[0]))
     }
 
 
+    const handlePostImageUrl = (e) => {
+        setNewSelectedFile(e.target.files[0])
+        setNewPreview(URL.createObjectURL(e.target.files[0]))
+
+    }
+
+    const handleAddNewItem = () => {
+
+        console.log("loading")
+        const docRef = doc(db, "categories", selectedCategory)
+        const imageRef = ref(storage, "images/" + newselectedFile.name)
+
+        if (newimageLink !== "") {
+            const product = {
+                id: v4(),
+                name: newtitle,
+                rating: newrating,
+                price: newprice,
+                description: newdescription,
+                image: newimageLink,
+                quantity: 1
+            }
+            updateDoc(docRef, { list: arrayUnion(product) }).then((result) => {
+                console.log("posted")
+                setTimeout(() => {
+                    // setLoadingModalOpen(false)
+                    window.location.reload(true)
+                }, 1000)
+            }).catch(e => {
+
+                setTimeout(() => {
+                    // setLoadingModalOpen(false)
+                    window.location.reload(true)
+                }, 1000)
+            })
+        }
+        else {
+            uploadBytes(imageRef, newselectedFile).then(() => {
+                getDownloadURL(imageRef).then((url) => {
+                    const product = {
+                        id: v4(),
+                        name: newtitle,
+                        rating: newrating,
+                        price: newprice,
+                        description: newdescription,
+                        image: url,
+                        quantity: 1
+                    }
+
+                    updateDoc(docRef, { list: arrayUnion(product) }).then((result) => {
+                        console.log("Updated!")
+                        setTimeout(() => {
+                            window.location.reload(true)
+                        }, 1000)
+                    }).catch(e => console.log(e))
+                }).catch(e => {
+                    setTimeout(() => {
+                        setLoadingModalOpen(false)
+                        window.location.reload(true)
+                    }, 1000)
+                })
+            }).catch(e => console.log(e))
+        }
+
+    }
 
 
     return (
@@ -419,23 +489,55 @@ function Admin() {
                     </div>
                 </Modal>
 
+
+
+
+
+
+
                 <Modal setShowModal={setOpenItemAddForm} showmodal={openItemAddForm}>
-                    <div className='md:w-[80%]  h-full flex flex-col justify-center items-center absolute z-50 w-full bg-gray-50 p-5 shadow-xl'>
-                        <BiX size={30} className="self-start" onClick={() => setOpenItemAddForm(false)} />
+                    <div className='md:w-[60%] overflow-y-scroll md:pt-[50vh] pt-[200px] h-full flex flex-col justify-center items-center absolute z-50 w-full bg-gray-50 p-5 shadow-xl'>
+                        <BiX size={40} className="self-start absolute top-20 " onClick={() => setOpenItemAddForm(false)} />
                         <h1>Item details</h1>
                         <div>
-                            <form onSubmit={(e) => e.preventDefault()}>
-                                <InputField title={"Title"} value={title} placeholder="enter title" type={"text"} />
-                                <InputField title={"Rating"} value={rating} placeholder="rating" />
-                                <InputField title={"Price"} value={price} placeholder="Price here" type={"text"} />
-                                <InputField title={"Image"} placeholder="Image" type={"file"} />
+                            <form onSubmit={(e) => e.preventDefault()} className="md:w-[25vw] w-[80vw] ">
+                                <InputField title={"Title"} onChange={(e) => setNewTitle(e.target.value)} value={newtitle} placeholder="enter title" type={"text"} />
+                                <InputField title={"Rating"} onChange={(e) => setNewRating(e.target.value)} value={newrating} placeholder="rating" />
+                                <InputField title={"Price"} onChange={(e) => setNewPrice(e.target.value)} value={newprice} placeholder="Price here" type={"text"} />
+
+                                <div className='w-full flex flex-col justify-between'>
+                                    <div>
+
+                                        <p>Use link</p>
+                                        <Switch onChange={(e) => setUseLink(e.target.checked)} />
+                                    </div>
+
+                                    {useLink ? (<InputField title={"image Link"} placeholder={"paste image link here"} type="text" value={newimageLink} onChange={(e) => {
+                                        setNewPreview(e.target.value)
+                                        setNewImageLink(e.target.value)
+
+                                    }} />) : (
+                                        <>
+
+                                            <div className="upload-btn-wrapper " >
+                                                <button className="btn border-purple-400 text-purple-500 flex flex-row justify-center items-center shadow-xl gap-2 border-2 p-3 bg-purple-100 my-5">
+                                                    <MdImage size={25} /> Upload image</button>
+                                                <input type="file" onChange={handlePostImageUrl} name="myfile" />
+                                            </div>
+
+                                        </>
+                                    )}
+
+                                    <img src={newpreview} className={"w-full bg-gray-400 animate h-[100px] object-cover"} />
+
+                                </div>
                                 <div className='my-5'>
                                     <h1 className='pb-2'>Description</h1>
-                                    <textarea value={description} required={true} placeholder={"enter description"}
+                                    <textarea value={newdescription} onChange={(e) => setNewDescription(e.target.value)} required={true} placeholder={"enter description"}
                                         className={"w-full border-[1px] border-purple-400 py-3 p-5 shadow-xl rounded-xl "} />
                                 </div>
                                 <div className='my-5'>
-                                    <button className='bg-black p-2 px-5 text-white'>Add</button>
+                                    <button className='bg-black p-2 px-5 text-white' onClick={handleAddNewItem}>Add</button>
                                 </div>
                             </form>
                         </div>
