@@ -1,10 +1,11 @@
 import React from 'react'
 import { motion } from "framer-motion"
 
-function Modal({ setShowModal, children, showmodal }) {
+function Modal({ setShowModal, children, showmodal, zIndex }) {
     return (
-        <div className='absolute top-0 flex flex-col justify-center items-center left-0 w-screen h-screen ' style={{
-            display: showmodal ? "flex" : "none"
+        <div className='absolute top-0 flex flex-col  justify-center items-center left-0 w-screen h-screen ' style={{
+            display: showmodal ? "flex" : "none",
+            zIndex: zIndex
         }}>
 
             {children}

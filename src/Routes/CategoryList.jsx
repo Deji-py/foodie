@@ -21,6 +21,8 @@ function CategoryList() {
     const [modalOpen, setModalOpen] = useState(false)
     const [modalDetail, setModalDetail] = useState()
 
+
+
     const loadCategory = async () => {
         setLoading(true)
         setError("")

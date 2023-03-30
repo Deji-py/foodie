@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from "firebase/auth";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase_config";
 
 export const AuthContext = createContext({
@@ -12,9 +12,10 @@ export const AuthContext = createContext({
 
 const AuthProvider = ({ children }) => {
 
+    const admins = ["admin@gmail.com", "ayodejialakija037@gmail.com"]
 
     const [currentUser, setCurrentUser] = useState(auth.currentUser)
-    const [userIsAdmin, setUserIsAdmin] = useState(true)
+    const [userIsAdmin, setUserIsAdmin] = useState(false)
 
     const authValue = {
         currentUser: currentUser,
@@ -22,6 +23,15 @@ const AuthProvider = ({ children }) => {
         setUserIsAdmin,
         setCurrentUser
     }
+
+    useEffect(() => {
+        if (admins.includes(currentUser?.email)) {
+            setUserIsAdmin(true)
+        }
+        else {
+            setUserIsAdmin(false)
+        }
+    }, [currentUser])
 
 
     onAuthStateChanged(auth, user => {

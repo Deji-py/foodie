@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { BiX } from 'react-icons/bi'
 import Modal from '../Utilty/Modal'
 import { arrayUnion, collection, doc, FieldValue, getDoc, getDocs, setDoc, updateDoc } from "firebase/firestore"
 import InputField from './Authentication/components/InputField'
 import { db, storage } from '../firebase_config'
 import { CircularProgress, Divider, IconButton, selectClasses, Switch } from '@mui/material'
-import { v4 } from "uuid"
+import UUID from "uuid-int"
 import { FaTrash } from "react-icons/fa"
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { MdImage } from 'react-icons/md'
-
-
+import { AuthContext } from '../Context/AuthProvider'
+import { useNavigate } from 'react-router-dom'
 
 
 const CategoryItem = ({ image, title, style, onClick }) => {
@@ -64,17 +64,7 @@ const CategoriesSection = ({ setCategories, currentItem, setCurrentItem }) => {
             <h1 className='font-mediun font-bold ml-5  text-[1.2em] '>
                 Categories
             </h1>
-            <div className='w-full py-5 md:px-5 '>
-                <input type="text" placeholder='search Categories' className='w-full hidden md:block p-2 px-10 rounded-xl shadow-lg' />
-                <div className='flex mt-5  flex-row justify-between items-center'>
-                    <div className='text-[0.8rem]'>
-                        Total Categories: 3
-                    </div>
-                    <div>
-                        <button className='bg-black text-[0.8rem] shadow-xl text-white p-3 px-5 rounded-2xl'>Add Category</button>
-                    </div>
-                </div>
-            </div>
+
             <div className='w-full hidden md:block '>
                 {loading ? <div className='w-full h-5 animate  bg-gray-300' /> : (
                     <>
@@ -114,10 +104,10 @@ const CategoriesSection = ({ setCategories, currentItem, setCurrentItem }) => {
     )
 }
 
-const CategoryProductsSection = ({ category, selectedItemIndex, setSelectedItemIndex, setOpenItemAddForm }) => {
+const CategoryProductsSection = ({ category, deleteItem, selectedItemIndex, setSelectedItemIndex, setOpenItemAddForm }) => {
 
 
-    const Item = ({ name, image, onClick, style }) => {
+    const Item = ({ name, image, onClick, style, deleteProduct, item }) => {
         return (
             <div onClick={onClick} style={style} className='w-full flex flex-row p-5 shadow-xl justify-between  items-center gap-5 bg-white my-5' >
                 <div className='flex flex-row justify-start items-center gap-5'>
@@ -129,7 +119,7 @@ const CategoryProductsSection = ({ category, selectedItemIndex, setSelectedItemI
                     </div>
                 </div>
                 <div>
-                    <IconButton >
+                    <IconButton onClick={() => deleteProduct(item?.id)} >
                         {<FaTrash size={20} />}
                     </IconButton >
                 </div>
@@ -139,7 +129,6 @@ const CategoryProductsSection = ({ category, selectedItemIndex, setSelectedItemI
 
     const [data, setData] = useState(null)
     const renderItems = () => {
-        console.log("loading")
         const docRef = doc(db, "categories/" + category)
         getDoc(docRef).then((result) => {
             setData(result.data())
@@ -148,7 +137,7 @@ const CategoryProductsSection = ({ category, selectedItemIndex, setSelectedItemI
 
     useEffect(() => {
         renderItems()
-    }, [category])
+    }, [category, data])
 
     return (
         <div className='w-full md:w-[40%] overflow-y-scroll hideScrollbar h-full md:px-5 px-2'>
@@ -172,7 +161,7 @@ const CategoryProductsSection = ({ category, selectedItemIndex, setSelectedItemI
             <div>
 
                 {data?.list.map((item, key) => (
-                    <Item onClick={() => setSelectedItemIndex(key)} style={{
+                    <Item deleteProduct={deleteItem} item={item} onClick={() => setSelectedItemIndex(key)} style={{
                         background: selectedItemIndex === key ? "lightgray" : "white",
                         border: selectedItemIndex === key ? "gray 2px solid" : "white 2px solid",
                         cursor: "pointer"
@@ -186,6 +175,8 @@ const CategoryProductsSection = ({ category, selectedItemIndex, setSelectedItemI
 
 
 function Admin() {
+
+    const { userIsAdmin } = useContext(AuthContext)
 
     const [currentItem, setCurrentItem] = useState(0)
     const [selectedItemIndex, setSelectedItemIndex] = useState(0)
@@ -221,13 +212,30 @@ function Admin() {
     const [newimageLink, setNewImageLink] = useState("")
 
 
+    const id = 0
+    const generator = UUID(id)
+    const uuid = generator.uuid()
+
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (userIsAdmin) {
+            return
+        }
+        else {
+            navigate("/dashboard/categories")
+        }
+    }, [])
+
+
     const updateForm = () => {
+        setSelectedFile("")
+        setNewSelectedFile("")
         setTitle(data?.name)
         setRating(data?.rating)
         setPrice(data?.price)
         setDescription(data?.description)
         setImage(data?.image)
-        setImageLink(image)
     }
 
 
@@ -236,12 +244,16 @@ function Admin() {
         setData(categories[currentItem]?.list[selectedItemIndex])
         setList(categories[currentItem]?.list)
         updateForm()
-    }, [categories, currentItem, selectedItemIndex])
+    }, [categories, currentItem, selectedItemIndex, selectedCategory])
+
+
 
 
     useEffect(() => {
+
         updateForm()
-    }, [data, selectedItemIndex, data])
+
+    }, [data])
 
 
     useEffect(() => {
@@ -261,8 +273,8 @@ function Admin() {
             const documentData = {
                 id: data?.id,
                 name: title,
-                rating: rating,
-                price: price,
+                rating: parseInt(rating),
+                price: parseInt(price),
                 description: description,
                 image: imageLink,
                 quantity: 1
@@ -288,8 +300,8 @@ function Admin() {
             const documentData = {
                 id: data?.id,
                 name: title,
-                rating: rating,
-                price: price,
+                rating: parseInt(rating),
+                price: parseInt(price),
                 description: description,
                 image: preview,
                 quantity: 1
@@ -319,8 +331,8 @@ function Admin() {
                     const documentData = {
                         id: data?.id,
                         name: title,
-                        rating: rating,
-                        price: price,
+                        rating: parseInt(rating),
+                        price: parseInt(price),
                         description: description,
                         image: url,
                         quantity: 1
@@ -343,7 +355,13 @@ function Admin() {
                         window.location.reload(true)
                     }, 1000)
                 })
-            }).catch(e => console.log(e))
+            }).catch(e => {
+                setMessage(e.message)
+                setTimeout(() => {
+                    setLoadingModalOpen(false)
+                    window.location.reload(true)
+                }, 1000)
+            })
 
         }
 
@@ -364,31 +382,34 @@ function Admin() {
     }
 
     const handleAddNewItem = () => {
-
-        console.log("loading")
+        if (newtitle === "" || newprice === "" || newrating === "" || newdescription === "") return
+        setLoadingModalOpen(true)
+        setMessage("please wait")
         const docRef = doc(db, "categories", selectedCategory)
         const imageRef = ref(storage, "images/" + newselectedFile.name)
 
         if (newimageLink !== "") {
             const product = {
-                id: v4(),
+                id: uuid,
                 name: newtitle,
-                rating: newrating,
-                price: newprice,
+                rating: parseInt(newrating),
+                price: parseInt(newprice),
                 description: newdescription,
                 image: newimageLink,
                 quantity: 1
             }
             updateDoc(docRef, { list: arrayUnion(product) }).then((result) => {
-                console.log("posted")
+                setMessage("Posted")
                 setTimeout(() => {
-                    // setLoadingModalOpen(false)
+
+                    setLoadingModalOpen(false)
                     window.location.reload(true)
                 }, 1000)
             }).catch(e => {
 
+                setMessage(e.message)
                 setTimeout(() => {
-                    // setLoadingModalOpen(false)
+                    setLoadingModalOpen(false)
                     window.location.reload(true)
                 }, 1000)
             })
@@ -397,29 +418,50 @@ function Admin() {
             uploadBytes(imageRef, newselectedFile).then(() => {
                 getDownloadURL(imageRef).then((url) => {
                     const product = {
-                        id: v4(),
+                        id: uuid,
                         name: newtitle,
-                        rating: newrating,
-                        price: newprice,
+                        rating: parseInt(newrating),
+                        price: parseInt(newprice),
                         description: newdescription,
                         image: url,
                         quantity: 1
                     }
 
                     updateDoc(docRef, { list: arrayUnion(product) }).then((result) => {
-                        console.log("Updated!")
+                        setMessage("Posted")
                         setTimeout(() => {
+
+                            setLoadingModalOpen(false)
                             window.location.reload(true)
                         }, 1000)
                     }).catch(e => console.log(e))
                 }).catch(e => {
+                    setMessage(e.message)
                     setTimeout(() => {
+
                         setLoadingModalOpen(false)
                         window.location.reload(true)
                     }, 1000)
                 })
-            }).catch(e => console.log(e))
+            }).catch(e => {
+                setMessage(e.message)
+                setTimeout(() => {
+
+                    setLoadingModalOpen(false)
+                    window.location.reload(true)
+                }, 1000)
+            })
         }
+
+    }
+
+
+    const deleteItem = (id) => {
+
+        const docRef = doc(db, "categories", selectedCategory)
+        const listCopy = list
+        const remainingItem = listCopy.filter((item) => { return item.id !== id })
+        updateDoc(docRef, { list: remainingItem })
 
     }
 
@@ -429,7 +471,7 @@ function Admin() {
         <div className=' md:p-2 pt:10 md:mt-[80px] font-medium gap-2 w-screen px-2  md:overflow-hidden h-fit md:h-[90vh] flex flex-col md:flex-row justify-start items-start'>
             <CategoriesSection setCategories={setCategories} currentItem={currentItem} setCurrentItem={setCurrentItem} />
 
-            <CategoryProductsSection setOpenItemAddForm={setOpenItemAddForm} category={selectedCategory} selectedItemIndex={selectedItemIndex} setSelectedItemIndex={setSelectedItemIndex} />
+            <CategoryProductsSection deleteItem={deleteItem} setOpenItemAddForm={setOpenItemAddForm} category={selectedCategory} selectedItemIndex={selectedItemIndex} setSelectedItemIndex={setSelectedItemIndex} />
             <div className='md:flex-auto md:customScroll  md:showScrollbar hideScrollbar  md:pt-[200px] w-full md:w-fit md:px-5 overflow-y-scroll md:flex flex-col justify-center items-center h-full md:h-full '>
                 <div className='md:w-[100%] mt-10 md:mt-20 md:pt-[300px] mb-10 rounded-2xl w-full bg-gray-50 h-fit p-5 shadow-xl'>
                     <h1 className='text-[1.3rem] font-bold'>Item details</h1>
@@ -481,9 +523,9 @@ function Admin() {
                     </div>
                 </div>
 
-                <Modal setShowModal={setLoadingModalOpen} showmodal={loadingModalOpen} >
+                <Modal zIndex={1000} setShowModal={setLoadingModalOpen} showmodal={loadingModalOpen} >
                     <div className='bg-white absolute z-[100] flex flex-col justify-center items-center p-5 rounded-20 shadow-xl'>
-                        {message === "Updated!" ? <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Eo_circle_green_checkmark.svg/512px-Eo_circle_green_checkmark.svg.png?20200417132424' className='w-[50px] h-[50px]' /> : <CircularProgress />}
+                        {message === "Updated!" || "posted" ? <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Eo_circle_green_checkmark.svg/512px-Eo_circle_green_checkmark.svg.png?20200417132424' className='w-[50px] h-[50px]' /> : <CircularProgress />}
 
                         <h2>{message}</h2>
                     </div>
@@ -495,7 +537,7 @@ function Admin() {
 
 
 
-                <Modal setShowModal={setOpenItemAddForm} showmodal={openItemAddForm}>
+                <Modal zIndex={100} setShowModal={setOpenItemAddForm} showmodal={openItemAddForm}>
                     <div className='md:w-[60%] overflow-y-scroll md:pt-[50vh] pt-[200px] h-full flex flex-col justify-center items-center absolute z-50 w-full bg-gray-50 p-5 shadow-xl'>
                         <BiX size={40} className="self-start absolute top-20 " onClick={() => setOpenItemAddForm(false)} />
                         <h1>Item details</h1>
