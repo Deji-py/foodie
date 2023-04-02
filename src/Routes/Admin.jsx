@@ -20,9 +20,7 @@ const CategoryItem = ({ image, title, style, onClick }) => {
                 <img src={image} at="img" className='flex-none w-[40px] h-[40px]' />
                 <h1>{title}</h1>
             </div>
-            <button className='bg-red-500 py-1 text-[0.8rem] text-white px-2 rounded-full'>
-                Delete
-            </button>
+          
 
         </button>
     )

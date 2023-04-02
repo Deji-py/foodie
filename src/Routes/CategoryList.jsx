@@ -20,6 +20,7 @@ function CategoryList() {
     const [error, setError] = useState("")
     const [modalOpen, setModalOpen] = useState(false)
     const [modalDetail, setModalDetail] = useState()
+    
 
 
 

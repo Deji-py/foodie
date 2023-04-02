@@ -42,12 +42,7 @@ function Header({ setOpenCart, openCart, showCart, showMenuDrop, loggedin, showS
     icon: <BiHome />,
     path: "/dashboard/categories/Foods"
   },
-  {
-    id: 1,
-    title: "Edit Profile",
-    icon: <CgProfile />,
-    path: "/dashboard/profile"
-  },
+
   ]
 
 

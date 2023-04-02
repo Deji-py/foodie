@@ -15,7 +15,6 @@ import Login from "./Routes/Authentication/Login";
 import Signup from "./Routes/Authentication/Signup";
 import AuthProvider from "./Context/AuthProvider";
 import About from "./Routes/About";
-import Profile from "./Routes/Profile";
 
 const routes = createBrowserRouter([
   {
@@ -41,10 +40,6 @@ const routes = createBrowserRouter([
       {
         path: "admin",
         element: <Admin />,
-      },
-      {
-        path: "profile",
-        element: <Profile />,
       },
     ],
   },
